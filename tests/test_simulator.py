@@ -32,7 +32,6 @@ class TestSimulator(NIOBlockTestCase):
         notified two sets of signals.
         """
         print("Testing:", self.Simulator.__name__)
-        SchedulerModule.module_init({})
         sim = self.Simulator()
 
         self.configure_block(sim, config)
