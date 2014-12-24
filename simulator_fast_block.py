@@ -1,5 +1,6 @@
 from nio.common.block.base import Block
 from nio.common.discovery import Discoverable, DiscoverableType
+from nio.common.command import command
 from nio.metadata.properties.int import IntProperty
 from nio.metadata.properties.timedelta import TimeDeltaProperty
 from nio.metadata.properties.object import ObjectProperty
@@ -11,15 +12,21 @@ import itertools
 
 from .simulator_mixin import Attribute, CountTotal
 
+
 def total_seconds(interval):
     return interval.days*24*60*60 + interval.seconds + interval.microseconds*1e-6
 
+
+@command("value")
 @Discoverable(DiscoverableType.block)
 class SimulatorFast(Block):
     signal_count = IntProperty(default=1, title='Signal Count')
     interval = TimeDeltaProperty(title='Interval', default={'seconds': 1})
     attribute = ObjectProperty(Attribute, title='Attribute')
     count_total = ObjectProperty(CountTotal, title="Count Total")
+    def __init__(self):
+        super().__init__()
+        self.counter = 0
 
     def start(self):
         super().start()
@@ -71,14 +78,18 @@ class SimulatorFast(Block):
                     pass
 
             if reset_interval < 0:
-                break
+                break  # never count again
             try:
                 sleep_time = reset_interval - (_time() - reset_start)
                 sleep(sleep_time)
             except ValueError:
                 pass
-
+            self.counter = 0
 
     def stop(self):
         self._stop_event.set()
         super().stop()
+
+    def value(self):
+        '''Access the total counted since last reset'''
+        return self.counter
