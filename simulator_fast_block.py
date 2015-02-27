@@ -37,6 +37,9 @@ class Cycler:
         ranges = (myrange for _ in range(self.percycle // len(myrange) + 1))
         return itertools.chain(myrange[counted:], *ranges)
 
+    def __len__(self):
+        return len(self.range)
+
 
 @command("value")
 @Discoverable(DiscoverableType.block)
@@ -85,7 +88,6 @@ class SimulatorFast(Block):
         reset_interval = self.count_total.reset_interval
 
         count_range = self.attribute.value
-        # srange = itertools.cycle(range(count_range.start, count_range.end + 1, count_range.step))
         cycler = Cycler(range(count_range.start, count_range.end + 1, count_range.step), signal_count)
         name = self.attribute.name
 
@@ -93,6 +95,7 @@ class SimulatorFast(Block):
             self._logger.error("Signal Count must be > 0")
             return
 
+        cycler_counted = 0
         self.counter = 0
         while(True):
             if count_total is None:
@@ -104,7 +107,7 @@ class SimulatorFast(Block):
             while count_left > 0:
                 if self._stop_event.is_set():
                     break
-                srange = cycler.refresh(signal_count - count_left)
+                srange = cycler.refresh(cycler_counted)
                 start = _time()
                 dvals = ((n,) for n in zip(itertools.repeat(name), islice(islice(srange, signal_count), count_left)))
                 dicts = map(dict, dvals)
@@ -112,6 +115,8 @@ class SimulatorFast(Block):
                 signals = list(map(Signal, dicts))
                 len_sigs = len(signals)
                 self.counter += len_sigs
+                cycler_counted += len_sigs
+                cycler_counted = cycler_counted % len(cycler)
                 if count_total is not None:
                     count_left -= len_sigs
 
