@@ -34,24 +34,28 @@ class SimulatorFast(Block):
         spawn(self.simulate)
 
     def simulate(self):
+        self._logger.debug('staring simulate')
         signal_count = self.signal_count
         count_range = self.attribute.value
         interval = total_seconds(self.interval)
         while True:
-            start = _time()
+            self._logger.debug('looping')
             srange = iter(range(count_range.start, count_range.end + 1, count_range.step))
             while True:
+                start = _time()
                 if self._stop_event.is_set():
                     return
                 try:
-                    signals = [n[1] for n in zip(range(signal_count), srange)]
+                    signals = [next(srange) for n in range(signal_count)]
                     self.notify_signals(signals)
                 except StopIteration:
                     break
                 try:
+                    self._logger.debug('sleep for {}'.format(interval - (_time() - start)))
                     sleep(interval - (_time() - start))
                 except ValueError:
                     pass
+        self._logger.error('bad break')
 
     def __simulate(self):
         islice = itertools.islice
