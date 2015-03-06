@@ -17,6 +17,30 @@ def total_seconds(interval):
     return interval.days*24*60*60 + interval.seconds + interval.microseconds*1e-6
 
 
+class Cycler:
+    '''cycles a range without creating a backup list (unless the iterator is long'''
+    def __init__(self, range, percycle):
+        self.range = range
+        self.percycle = percycle
+        if len(range) < 200:
+            # if there are less than 200 elements, just use itertools.cycle
+            self.itcycle = itertools.cycle(range)
+        else:
+            self.itcycle = None
+
+    def refresh(self, counted):
+        '''Get a refrehsed iterator'''
+        myrange = self.range
+        if self.itcycle:
+            return self.itcycle
+        counted = counted % len(myrange)
+        ranges = (myrange for _ in range(self.percycle // len(myrange) + 1))
+        return itertools.chain(myrange[counted:], *ranges)
+
+    def __len__(self):
+        return len(self.range)
+
+
 @command("value")
 @Discoverable(DiscoverableType.block)
 class SimulatorFast(Block):
@@ -33,6 +57,27 @@ class SimulatorFast(Block):
         self._stop_event = Event()
         spawn(self.simulate)
 
+    def __simulate(self):
+        signal_count = self.signal_count
+        count_range = self.attribute.value
+        interval = total_seconds(self.interval)
+        while True:
+            srange = iter(range(count_range.start, count_range.end + 1, count_range.step))
+            while True:
+                start = _time()
+                if self._stop_event.is_set():
+                    return
+                try:
+                    signals = [next(srange) for n in range(signal_count)]
+                    self.notify_signals(signals)
+                except StopIteration:
+                    break
+                try:
+                    sleep(interval - (_time() - start))
+                except ValueError:
+                    pass
+        self._logger.error('bad break')
+
     def simulate(self):
         islice = itertools.islice
         interval = total_seconds(self.interval)
@@ -43,13 +88,14 @@ class SimulatorFast(Block):
         reset_interval = self.count_total.reset_interval
 
         count_range = self.attribute.value
-        srange = itertools.cycle(range(count_range.start, count_range.end + 1, count_range.step))
+        cycler = Cycler(range(count_range.start, count_range.end + 1, count_range.step), signal_count)
         name = self.attribute.name
 
         if signal_count <= 0:
             self._logger.error("Signal Count must be > 0")
             return
 
+        cycler_counted = 0
         self.counter = 0
         while(True):
             if count_total is None:
@@ -61,6 +107,7 @@ class SimulatorFast(Block):
             while count_left > 0:
                 if self._stop_event.is_set():
                     break
+                srange = cycler.refresh(cycler_counted)
                 start = _time()
                 dvals = ((n,) for n in zip(itertools.repeat(name), islice(islice(srange, signal_count), count_left)))
                 dicts = map(dict, dvals)
@@ -68,6 +115,8 @@ class SimulatorFast(Block):
                 signals = list(map(Signal, dicts))
                 len_sigs = len(signals)
                 self.counter += len_sigs
+                cycler_counted += len_sigs
+                cycler_counted = cycler_counted % len(cycler)
                 if count_total is not None:
                     count_left -= len_sigs
 
