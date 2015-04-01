@@ -1,66 +1,42 @@
-Simulator
-===========
+# Simulator
 
-Generates a configurable number of configurable Signals at a configurable interval.
+A library of simulators as well as a framework for creating new types of signal simulators.
 
-When **value** is counting up, **end** = -1 will count forever.
+A simulator is a Block that is comprised of one Generator and one or more Triggers. In general, simulators can be "assembled" by using Python's multiple inheritance to make use of existing Generators and Triggers. In some cases, you may want to define your own Generator or Trigger, this is also documented below.
 
-Properties
---------------
+## Generators
 
--   **attributes**: List of attribute names and values to add to output signals.
+Generators are responsible for one and only one thing: generating signals. They are classes that can utilize standard block methods (i.e. `start`, `configure`, etc) but the only requirement is that they define a `generate_signals` method. This method must accept one optional parameter, `n`. The implementation of `generate_signals` should return a list of `Signal` objects with length of list equal to `n`. 
+
+Here is possibly the simplest implementation of a Generator - it will simply return empty signals:
+
+```python
+class IdentityGenerator():
+
+    def generate_signals(self, n=1):
+        return [Signal() for i in range(n)]
+```
+
+There is no guarantee that generators will get called from the same thread, so it is generally good practice to use `Lock` objects to make the generator thread safe. 
+
+Generators likely will need to internally keep track of any additional variables used to generate the next signals (i.e. current value that increments, UPC codes to simulate, etc). 
+
+### Existing Generators
+
+#### CounterGenerator
+
+Creates signals with one numeric attribute that will increment each time.
+
+##### Properties
+
+-   **attr_name**: The name of the attribute on the Signal
+-   **attr_value**:
  -    **start**: Number that the simulator starts at
  -    **stop**: Number that the simulator stops at 
-   -    Note: `start, stop, step = 0, 5, 1` will simulate `[0,1,2,3,4,5]`
- -    **step**: Number that the simulator skips between each simulation
--   **interval**: Period at which to notify signals.
--   **signal_count**: Number of signals to notify each *interval*.
--   **Count Total**
-  -   **Total Count**: Total number of signals that the simulator will simulate. After this number has been reached, the simulator will stop (permanatly if not reset by **Reset Interval**).
-    - if **Total Count** <= 0, it is ignored (simulator will simulate indefinately)
-  -   **Reset Interval**: Time from *begginning of simulation* that a reset will occur.
-    - if the simulation takes longer than **Reset Interval**, the simulator will be reset immediately after **Total Count** has been reached.
-    - if **Reset Interval** < 0 the simulator will never be reset, i.e. it will count to Total Count and then stop indefinitely (until the service is restarted)
--   **signal_type**: Signal type. Defaults to 'nio.common.signal.base.Signal'.
+ -    **step**: Number that the simulator increments between each simulation
+   -    Note: `start, stop, step = 0, 6, 3` will simulate `[0, 3, 6, 0]`
 
 
-Dependencies
-----------------
-None
+#### IdentityGenerator
 
-Commands
-----------------
-None
-
-Input
--------
-None
-
-Output
----------
-New simulated signals.
-
----------
-
-SimulatorSafe
-===========
-Exactly the same as Simulator, except if the number of signals requested cannot be generated in the given *interval*, then SimulatorSafe will stop generating signals (and start generating signals in the new interval).
-
-For example, in an extremely slow system the simulations could look like:
-```
-# Simulator (start = 0, stop = 30, step = 1)
-| <- interval ->  | <- interval ->  | <- interval ->  |
- 00 01 02 03 04 05 06 08 10 12 14 16 18 21 24 27 30 02 # Each line continues until
-                   07 09 11 13 15 17 19 22 25 28 00 03 #   30 signals have been 
-                                     20 23 26 29 01 04 #   generated in that line
-
-# SimulatorSafe (start = 0, stop = 30, step = 1)
-| <- interval ->  | <- interval ->  | <- interval ->  |
- 00 01 02 03 04 05 
-                   06 07 08 09 10 11
-                                     12 13 14 15 16 17
-```
-
-As you can see, SimulatorSafe may generate less signals (not tested), but it will always:
-- Output a list of signals every second (the standard simulator may take longer)
-- These signals will always be ordinal. As you can see above, the standard Simulator's signals were not ordinal when it could not generate fast enough
+Creates empty signals. This is most likely useful for driving some other type of Block that doesn't necessarily care about the signal contents, but rather that a signal has been notified.
