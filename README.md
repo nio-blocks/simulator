@@ -68,3 +68,33 @@ Notifies signals every interval.
 
 -   **notify_on_start**: Whether or not to immediately notify simulated signals
 -   **interval**: How often should the block notify signals
+   
+
+## Blocks
+
+Ok, we've got some Generators and some Triggers, now it's time to make a block! We're going to use [Python's multiple inheritance](https://docs.python.org/3.4/tutorial/classes.html#multiple-inheritance) support to make this happen; your block just needs to inherit from a Generator and one or more Triggers. It will also need to inherit from Block, this must be the last import too.
+
+You'll also need to do your "block-y" things here. That means discoverability, version properties, etc. In general though, you won't need to implement any functionality in the blocks, they will just act as the glue between Generators and Triggers.
+
+Here is a Simulator block that makes use of our [Counter Generator](#countergenerator) and our [Interval Trigger](#intervaltrigger). So it will count up an attribute in signals, and notify them every configured interval.
+
+```python
+@Discoverable(DiscoverableType.block)
+class CounterIntervalSimulator(CounterGenerator, IntervalTrigger, Block):
+    version = VersionProperty('1.0.0')
+```
+
+That's it, that's your block! Not a whole lot there, right? That's the idea. By having a library of Generators and Triggers, we allow you to create tons of combinations of Simulators!
+
+
+## Multiple Signals
+
+Sometimes it's useful to simulate multiple signals at a time. The simulator repository also defines a Simulator Mix-in called `MultipleSignals`. This mix-in will define a configuration property called `num_signals` that will allow the block configurer to define how many signals get notified each time. 
+
+The mix-in works by intercepting the Trigger's call to the Generator's `generate_signals` method and then calls the method with the correct parameter. For this reason, it's sometimes important that a Trigger call `self.generate_signals()` rather than `self.generate_signals(1)`. If the Trigger defines how many signals to generate, the MultipleSignals mix-in will ignore the parameter configured at the block.
+
+To enable multiple signal support in your simulator, just inherit from the `MultipleSignals` mix-in **first** in your inheritance list:
+
+```python
+class CounterIntervalSimulator(MultipleSignals, CounterGenerator, IntervalTrigger, Block):
+```
