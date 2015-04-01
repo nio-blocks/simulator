@@ -40,3 +40,31 @@ Creates signals with one numeric attribute that will increment each time.
 #### IdentityGenerator
 
 Creates empty signals. This is most likely useful for driving some other type of Block that doesn't necessarily care about the signal contents, but rather that a signal has been notified.
+
+
+## Triggers
+
+A Trigger's job is to determine when signals should be generated and notified. There is no strictly defined interface for a Trigger's implementation, but it will almost certainly need to call `self.generate_signals()` at some point to be effective. Just like a Generator, the Trigger can define functionality inside standard block methods (just make sure to call `super()` in the implementation!). The Trigger is also responsible for notifying the signals, so it will likely make some `self.notify_signals` calls as well. 
+
+Here is an example of a Trigger that will generate signals every second. Note: don't use this Trigger, it won't respond to block stop events, it's just an example:
+
+```python
+class OneSecondTrigger():
+
+    def start(self):
+        super().start()
+        while True:
+            self.notify_signals(self.generate_signals())
+            sleep(1)
+```
+
+### Existing Triggers
+
+#### IntervalTrigger
+
+Notifies signals every interval.
+
+##### Properties
+
+-   **notify_on_start**: Whether or not to immediately notify simulated signals
+-   **interval**: How often should the block notify signals
