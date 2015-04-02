@@ -69,6 +69,28 @@ Notifies signals every interval.
 -   **notify_on_start**: Whether or not to immediately notify simulated signals
 -   **interval**: How often should the block notify signals
    
+#### SafeTrigger
+
+Notify every interval - regardless of how mnay signals were created
+
+***Does not support MultipleSignals***
+
+##### Properties
+
+-   **interval**: How often should the block notify signals
+-   **max_count**: Maximum signals to notify — the block will never notify more signals than this count every interval. However, if the number is too high for it to create, it may return less than this number. The only guarantee made by this block is that a notification will happen every interval
+
+
+#### FastTrigger
+
+Notifies a number of signals as fast as it can. No intervals, no scheduling, just plain `while` loops.
+
+***Does not support MultipleSignals***
+
+##### Properties
+
+-   **max_count**: How many signals you want? Won't notify until we make 'em all
+   
 
 ## Blocks
 
