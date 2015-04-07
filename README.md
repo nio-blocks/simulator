@@ -34,7 +34,7 @@ Creates signals with one numeric attribute that will increment each time.
  -    **start**: Number that the simulator starts at
  -    **stop**: Number that the simulator stops at 
  -    **step**: Number that the simulator increments between each simulation
-   -    Note: `start, stop, step = 0, 6, 3` will simulate `[0, 3, 6, 0]`
+   -    Note: `start, stop, step = 0, 6, 3` will simulate `[0, 3, 6, 0, 3, ...]`
 
 
 #### IdentityGenerator
@@ -46,7 +46,8 @@ Creates empty signals. This is most likely useful for driving some other type of
 
 A Trigger's job is to determine when signals should be generated and notified. There is no strictly defined interface for a Trigger's implementation, but it will almost certainly need to call `self.generate_signals()` at some point to be effective. Just like a Generator, the Trigger can define functionality inside standard block methods (just make sure to call `super()` in the implementation!). The Trigger is also responsible for notifying the signals, so it will likely make some `self.notify_signals` calls as well. 
 
-Here is an example of a Trigger that will generate signals every second. Note: don't use this Trigger, it won't respond to block stop events, it's just an example:
+Here is an example of a Trigger that will generate signals every second. 
+> Note: don't use this Trigger, it won't respond to block stop events, it's just an example:
 
 ```python
 class OneSecondTrigger():
@@ -71,7 +72,7 @@ Notifies signals every interval.
    
 #### SafeTrigger
 
-Notify every interval - regardless of how mnay signals were created
+Notify every interval - regardless of how many signals were created
 
 ***Does not support MultipleSignals***
 
