@@ -11,9 +11,9 @@ below.
 ## Generators
 
 Generators are responsible for one and only one thing: generating signals. 
-They are classes that can utilize standard block methods (i.e. `start`, `
-configure`, etc) but the only requirement is that they define a `
-generate_signals` method. This method must accept one optional parameter, `n`. 
+They are classes that can utilize standard block methods (i.e. `start`, 
+`configure`, etc) but the only requirement is that they define a 
+`generate_signals` method. This method must accept one optional parameter, `n`.
 The implementation of `generate_signals` should return a list of `Signal` 
 objects with length of list equal to `n`. 
 
@@ -32,8 +32,8 @@ it is generally good practice to use `Lock` objects to make the generator
 thread safe. 
 
 Generators likely will need to internally keep track of any additional 
-variables used to generate the next signals (i.e. current value that increments
-, UPC codes to simulate, etc). 
+variables used to generate the next signals (i.e. current value that 
+increments, UPC codes to simulate, etc). 
 
 ### Existing Generators
 
@@ -123,8 +123,8 @@ plain `while` loops.
 
 ## Blocks
 
-Ok, we've got some Generators and some Triggers, now it's time to make a block
-! We're going to use [Python's multiple inheritance](https://docs.python.org/3.4/tutorial/classes.html#multiple-inheritance) 
+Ok, we've got some Generators and some Triggers, now it's time to make a 
+block! We're going to use [Python's multiple inheritance](https://docs.python.org/3.4/tutorial/classes.html#multiple-inheritance) 
 support to make this happen; your block just needs to inherit from a Generator 
 and one or more Triggers. It will also need to inherit from Block, this must 
 be the last import too.
@@ -158,15 +158,15 @@ mix-in will define a configuration property called `num_signals` that will
 allow the block configurer to define how many signals get notified each time. 
 
 
-The mix-in works by intercepting the Trigger's call to the Generator's `
-generate_signals` method and then calls the method with the correct parameter. 
-For this reason, it's sometimes important that a Trigger call `
-self.generate_signals()` rather than `self.generate_signals(1)`. If the 
+The mix-in works by intercepting the Trigger's call to the Generator's 
+`generate_signals` method and then calls the method with the correct parameter. 
+For this reason, it's sometimes important that a Trigger call 
+`self.generate_signals()` rather than `self.generate_signals(1)`. If the 
 Trigger defines how many signals to generate, the MultipleSignals mix-in will 
 ignore the parameter configured at the block.
 
-To enable multiple signal support in your simulator, just inherit from the `
-MultipleSignals` mix-in **first** in your inheritance list:
+To enable multiple signal support in your simulator, just inherit from the 
+`MultipleSignals` mix-in **first** in your inheritance list:
 
 ```python
 class CounterIntervalSimulator(MultipleSignals, CounterGenerator, IntervalTrigger, Block):
