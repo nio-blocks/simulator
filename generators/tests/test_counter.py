@@ -24,7 +24,7 @@ class TestCounter(NIOBlockTestCase):
                 'step': 5
             }
         })
-        results = counter.generate_signals(3)
+        results = list(counter.generate_signals(3))
 
         self.assertEqual(len(results), 3)
         self.assertEqual(results[0].attr, 10)
@@ -46,7 +46,7 @@ class TestCounter(NIOBlockTestCase):
         # Don't call generate_signals with any arguments,
         # this is likely what the trigger will do and we want the
         # mix-in to specifiy how many signals to generate
-        results = counter.generate_signals()
+        results = list(counter.generate_signals())
 
         self.assertEqual(len(results), 2)
         self.assertEqual(results[0].attr, 10)
