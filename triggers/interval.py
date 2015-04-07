@@ -26,4 +26,7 @@ class IntervalTrigger():
 
     def _simulate(self):
         self._logger.debug("Triggering signals")
-        self.notify_signals(self.generate_signals())
+        out = self.generate_signals()
+        if not isinstance(out, list):
+            out = list(out)
+        self.notify_signals(out)
