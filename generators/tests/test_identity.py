@@ -16,7 +16,7 @@ class TestIdentity(NIOBlockTestCase):
 
     def test_counts(self):
         identity = SampleIdentityBlock()
-        results = identity.generate_signals(3)
+        results = list(identity.generate_signals(3))
 
         self.assertEqual(len(results), 3)
 
@@ -28,6 +28,6 @@ class TestIdentity(NIOBlockTestCase):
         # Don't call generate_signals with any arguments,
         # this is likely what the trigger will do and we want the
         # mix-in to specifiy how many signals to generate
-        results = identity.generate_signals()
+        results = list(identity.generate_signals())
 
         self.assertEqual(len(results), 2)
