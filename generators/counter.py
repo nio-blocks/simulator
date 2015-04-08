@@ -34,6 +34,7 @@ class CounterGenerator():
     def generate_signals(self, n=1):
         # bring variables into local space for minor speedup
         with self.count_lock:
+            # pull into local namespace for speed
             S = Signal
             myrange = self.range
             rlen = len(myrange)
@@ -44,10 +45,9 @@ class CounterGenerator():
             lasti = self._lasti
             while sigs < n:
                 r = myrange[lasti: lasti + (n - sigs)]
-                lasti = len(r) % rlen
+                lasti = (lasti + len(r)) % rlen
                 sigs += len(r)
                 ranges.append(r)
-            assert sigs == n
             self._lasti = lasti
             return (S({name: value}) for (name, value) in
                     zip(repeat(self.attr_name, sigs), chain.from_iterable(ranges)))

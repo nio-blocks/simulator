@@ -63,43 +63,6 @@ class IntervalTrigger():
                 over = 0
             start = ttime() + over
 
-    def run_signals(self):
-        """ Create *max_count* signals and notify as fast as possible """
-        # We are going to run until someone tells us to stop
-
-        while not self._stop_event.is_set():
-            # remaining will hold how many signals are left to create this run
-            remaining = self.max_count
-            signals = []
-
-            # Check the stop event here too, so we can get out early
-            while remaining > 0 and not self._stop_event.is_set():
-
-                # Figure out how many more we have to create this batch
-                if remaining > self.BATCH_SIZE:
-                    to_create = self.BATCH_SIZE
-                else:
-                    to_create = remaining
-
-                if self.total_signals < 0:
-                    pass
-                elif self.count + to_create > self.total_signals:
-                    to_create = self.total_signals - self.count
-
-                remaining -= to_create
-                self.count += to_create
-                signals.extend(self.generate_signals(to_create))
-                if self.total_signals > 0 and self.count >= self.total_signals:
-                    self._stop_event.set()
-
-            if self._stop_event.is_set():
-                # Someone wants to stop, get out of this loop
-                break
-            else:
-                # We just exhausted the loop, notify signals and do it again
-                self._logger.debug("Notifying {} signals".format(len(signals)))
-                self.notify_signals(signals)
-
     def stop(self):
         """ Stop the simulator thread. """
         self._stop_event.set()
