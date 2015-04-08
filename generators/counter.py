@@ -1,3 +1,5 @@
+from itertools import chain, repeat
+
 from nio.common.signal.base import Signal
 from nio.modules.threading import Lock
 from nio.metadata.properties import PropertyHolder, ObjectProperty, \
@@ -11,6 +13,7 @@ class Value(PropertyHolder):
 
 
 class CounterGenerator():
+    '''A fast numeric batch generator'''
 
     attr_name = StringProperty(default='sim', title='Simulated Attribute')
     attr_value = ObjectProperty(Value, title='Simulated Value')
@@ -19,36 +22,32 @@ class CounterGenerator():
         super().__init__()
         self.cur_count = 0
         self.count_lock = Lock()
+        self._lasti = 0
+        self.range = None
 
     def configure(self, context):
         super().configure(context)
-        # Initialize our count to the starting value
-        self.cur_count = self.attr_value.start
+        self._lasti = 0
+        self.range = range(self.attr_value.start, self.attr_value.end + 1,
+                           self.attr_value.step)
 
     def generate_signals(self, n=1):
-        return [self._get_next_signal() for i in range(n)]
-
-    def _get_next_signal(self):
-        """ Get the next signal we want to emit.
-
-        This will update the cur_count and return a Signal with the current
-        count at the time the function was called.
-        """
+        # bring variables into local space for minor speedup
         with self.count_lock:
-            # store the current count, then increment it
-            my_count = self.cur_count
-            self._bump_count()
+            # pull into local namespace for speed
+            S = Signal
+            myrange = self.range
+            rlen = len(myrange)
 
-        return Signal({
-            self.attr_name: my_count
-        })
-
-    def _bump_count(self):
-        """ Increment the current count, roll over if necessary.
-
-        Returns:
-            None: self.cur_count gets updated instead
-        """
-        self.cur_count += self.attr_value.step
-        if self.cur_count > self.attr_value.end:
-            self.cur_count = self.attr_value.start
+            ranges = []
+            sigs = 0
+            # this is how much is left of the previously used range
+            lasti = self._lasti
+            while sigs < n:
+                r = myrange[lasti: lasti + (n - sigs)]
+                lasti = (lasti + len(r)) % rlen
+                sigs += len(r)
+                ranges.append(r)
+            self._lasti = lasti
+            return (S({name: value}) for (name, value) in
+                    zip(repeat(self.attr_name, sigs), chain.from_iterable(ranges)))
