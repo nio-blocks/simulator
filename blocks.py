@@ -16,7 +16,7 @@ class CounterIntervalSimulator(
         IntervalTrigger,
         Block):
 
-    version = VersionProperty('1.0.0')
+    version = VersionProperty('1.0.1')
 
 
 @Discoverable(DiscoverableType.block)
@@ -25,13 +25,13 @@ class CounterSafeSimulator(
         SafeTrigger,
         Block):
 
-    version = VersionProperty('1.0.0')
+    version = VersionProperty('1.0.1')
 
 
 @Discoverable(DiscoverableType.block)
-class IdentityFastSimulator(
+class IdentityIntervalSimulator(
         IdentityGenerator,
-        FastTrigger,
+        IntervalTrigger,
         Block):
 
-    version = VersionProperty('1.0.0')
+    version = VersionProperty('1.0.1')
