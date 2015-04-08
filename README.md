@@ -62,6 +62,12 @@ Creates empty signals. This is most likely useful for driving some other type
 of Block that doesn't necessarily care about the signal contents, but rather 
 that a signal has been notified.
 
+##### Output
+> **Note:** `{}` is an empty Signal object
+
+```
+[{} {} {} {} {} ...]
+```
 
 ## Triggers
 
