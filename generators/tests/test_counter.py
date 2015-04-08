@@ -12,6 +12,10 @@ class SampleCounterMultipleBlock(MultipleSignals, CounterGenerator, Block):
     pass
 
 
+def get_values(signals):
+    return [s.attr for s in signals]
+
+
 class TestCounter(NIOBlockTestCase):
 
     def test_counts(self):
@@ -24,13 +28,33 @@ class TestCounter(NIOBlockTestCase):
                 'step': 5
             }
         })
-        results = counter.generate_signals(3)
+        results = list(counter.generate_signals(3))
 
         self.assertEqual(len(results), 3)
         self.assertEqual(results[0].attr, 10)
         self.assertEqual(results[1].attr, 15)
         # third one should have rolled over and started over at 10
         self.assertEqual(results[2].attr, 10)
+
+    def test_batch_counts(self):
+        counter = SampleCounterBlock()
+        self.configure_block(counter, {
+            'attr_name': 'attr',
+            'attr_value': {
+                'start': 0,
+                'end': 2,
+                'step': 1
+            }
+        })
+        results = get_values(counter.generate_signals(5))
+
+        self.assertEqual(len(results), 5)
+        self.assertEqual(results, [0, 1, 2, 0, 1])
+        # import pdb; pdb.set_trace()
+        results = get_values(counter.generate_signals(5))
+        self.assertEqual(results, [2, 0, 1, 2, 0])
+        results = get_values(counter.generate_signals(5))
+        self.assertEqual(results, [1, 2, 0, 1, 2])
 
     def test_multiple_counts(self):
         counter = SampleCounterMultipleBlock()
@@ -46,7 +70,7 @@ class TestCounter(NIOBlockTestCase):
         # Don't call generate_signals with any arguments,
         # this is likely what the trigger will do and we want the
         # mix-in to specifiy how many signals to generate
-        results = counter.generate_signals()
+        results = list(counter.generate_signals())
 
         self.assertEqual(len(results), 2)
         self.assertEqual(results[0].attr, 10)
