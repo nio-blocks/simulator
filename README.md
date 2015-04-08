@@ -104,6 +104,7 @@ Notifies signals every interval.
 For a **CounterIntervalSimulator** with start=0, stop=12, step=3, and max_count = 3, 
 the output will be:
 > **Note:** `*` is the point that the signals are notified
+
 ```
 |------interval------|------interval------|------interval------|------interval------|
 [ 0  3  6*             9 12  0*             3  6  9*            12  0  3*           ]
@@ -114,7 +115,9 @@ will be ignored and signals will only be output as fast as they can.
 
 For example, if max_count == 14 from the above example, the output would look like:
 > **Note:** `*` is the point that the signals are notified
+
 > **Note:** Compare the below to the Output in **SafeTrigger**
+
 ```
 |------interval------|------interval------|------interval------|------interval------|
 [ 0  3  6  9 12  0  3  6  9 12  0  3  6  9*12  0  3  6  9 12  0  3  6  9 12  0  3  6*]
@@ -140,6 +143,7 @@ Notify every interval - regardless of how many signals were created
 For a **CounterSafeSimulator** with `start=0, stop=12, step=3, and max_count = 3`
 the output will be:
 > **Note:** `*` is the point that the signals are notified
+
 ```
 |------interval------|------interval------|------interval------|------interval------|
 [ 0  3  6*             9 12  0*             3  6  9*            12  0  3*           ]
@@ -150,7 +154,9 @@ interval under heavy loads.
 
 For example, if `max_count == 14` from the above example, the output would look like:
 > **Note:** `*` is the point that the signals are notified
+
 > **Note:** Compare the below to the Output in **IntervalTrigger**
+
 ```
 |------interval------|------interval------|------interval------|------interval------|
 [ 0  3  6  9 12  0  3* 6  9 12  0  3  6  9*12  0  3  6  9 12  0* 3  6  9 12  0  3  6*]
