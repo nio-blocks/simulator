@@ -29,7 +29,7 @@ class CounterSafeSimulator(
 
 
 @Discoverable(DiscoverableType.block)
-class IdentityFastSimulator(
+class IdentityIntervalSimulator(
         IdentityGenerator,
         IntervalTrigger,
         Block):
