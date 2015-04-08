@@ -50,6 +50,11 @@ Creates signals with one numeric attribute that will increment each time.
  -    **step**: Number that the simulator increments between each simulation
    -    Note: `start, stop, step = 0, 6, 3` will simulate `[0, 3, 6, 0, 3, ...]`
 
+##### Output
+For a counter with start=0, stop=12, step=3
+```
+[0, 3, 6, 9, 12]
+```
 
 #### IdentityGenerator
 
@@ -88,11 +93,34 @@ class OneSecondTrigger():
 
 Notifies signals every interval.
 
+
 ##### Properties
 
 -   **notify_on_start**: Whether or not to immediately notify simulated signals
 -   **interval**: How often should the block notify signals
    
+
+##### Output
+For a **CounterIntervalSimulator** with start=0, stop=12, step=3, and max_count = 3, 
+the output will be:
+> **Note:** `*` is the point that the signals are notified
+```
+|------interval------|------interval------|------interval------|------interval------|
+[ 0  3  6*             9 12  0*             3  6  9*            12  0  3*           ]
+```
+
+The **IntervalTrigger** operates in a single thread, so under heavy loads the interval 
+will be ignored and signals will only be output as fast as they can.
+
+For example, if max_count == 14 from the above example, the output would look like:
+> **Note:** `*` is the point that the signals are notified
+> **Note:** Compare the below to the Output in **SafeTrigger**
+```
+|------interval------|------interval------|------interval------|------interval------|
+[ 0  3  6  9 12  0  3  6  9 12  0  3  6  9*12  0  3  6  9 12  0  3  6  9 12  0  3  6*]
+```
+In real-word applications this will happen at > 30,000 signals / second on most computers
+
 #### SafeTrigger
 
 Notify every interval - regardless of how many signals were created
@@ -108,18 +136,30 @@ Notify every interval - regardless of how many signals were created
     guarantee made by this block is that a notification will happen every 
     interval
 
+##### Output
+For a **CounterSafeSimulator** with `start=0, stop=12, step=3, and max_count = 3`
+the output will be:
+> **Note:** `*` is the point that the signals are notified
+```
+|------interval------|------interval------|------interval------|------interval------|
+[ 0  3  6*             9 12  0*             3  6  9*            12  0  3*           ]
+```
 
-#### FastTrigger
+The **SafeTrigger** uses threading so that it can guarantee a notification every 
+interval under heavy loads. 
 
-Notifies a number of signals as fast as it can. No intervals, no scheduling, just 
-plain `while` loops.
+For example, if `max_count == 14` from the above example, the output would look like:
+> **Note:** `*` is the point that the signals are notified
+> **Note:** Compare the below to the Output in **IntervalTrigger**
+```
+|------interval------|------interval------|------interval------|------interval------|
+[ 0  3  6  9 12  0  3* 6  9 12  0  3  6  9*12  0  3  6  9 12  0* 3  6  9 12  0  3  6*]
+```
+In other words, if the simulator cannot reach `max_count` in the interval time, it will
+notify anyways
 
-***Does not support MultipleSignals***
+In real-word applications this will happen at > 3,000 signals / second on most computers
 
-##### Properties
-
--   **max_count**: How many signals you want? Won't notify until we make 'em all
-   
 
 ## Blocks
 
