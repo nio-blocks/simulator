@@ -53,7 +53,7 @@ Creates signals with one numeric attribute that will increment each time.
 ##### Output
 For a counter with start=0, stop=12, step=3
 ```
-[0, 3, 6, 9, 12]
+[ 0  3  6  9 12  0  3  6 ...]
 ```
 
 #### IdentityGenerator
