@@ -69,6 +69,20 @@ that a signal has been notified.
 [{} {} {} {} {} ...]
 ```
 
+#### FileGenerator
+
+Creates signals as defined by a json file. The file must be a list of dictionaries where each dictionary is a nio Signal.
+
+Each call to generate_signals will return a randomly selected signal from the list loaded in from the json file.
+
+##### Properties
+
+-   **signals_file**: The location of the file containing a list of signals. It can be an absolute file location, relative to the root project directory or relative to the block path.
+
+##### Output
+
+Each output signal will be equivalent to a dictionary pulled in from the `signals_file`.
+
 ## Triggers
 
 A Trigger's job is to determine when signals should be generated and notified. 
