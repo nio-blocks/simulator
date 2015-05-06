@@ -1,6 +1,6 @@
 from unittest.mock import MagicMock
 from time import sleep
-from ..interval import IntervalTrigger
+from ...triggers.interval import IntervalTrigger
 from nio.common.signal.base import Signal
 from nio.common.block.base import Block
 from nio.util.support.block_test_case import NIOBlockTestCase

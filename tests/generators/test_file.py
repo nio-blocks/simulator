@@ -1,5 +1,5 @@
 from unittest.mock import MagicMock
-from ..file import FileGenerator
+from ...generators.file import FileGenerator
 from nio.common.block.base import Block
 from nio.util.support.block_test_case import NIOBlockTestCase
 
@@ -38,7 +38,7 @@ class TestFile(NIOBlockTestCase):
     def test_load_json_file(self):
         blk = SampleFileBlock()
         self.configure_block(blk, {
-            'signals_file': 'tests/signals.json'
+            'signals_file': '../tests/generators/signals.json'
         })
         json_sigs = blk._load_json_file()
         self.assertEqual(len(json_sigs), 5)
