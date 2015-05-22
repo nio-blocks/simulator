@@ -5,13 +5,10 @@ from nio.modules.threading import Event, spawn
 
 
 class IntervalTrigger():
-    '''Generate max_count signals every second up to total_signals'''
+    '''Generate signals at a regular interval up to total_signals'''
 
-    max_count = IntProperty(title="Number of Signals", default=1)
     total_signals = IntProperty(title="Total Number of Signals", default=-1)
     interval = TimeDeltaProperty(title='Interval', default={'seconds': 1})
-    notify_on_start = BoolProperty(
-        title='Notify Immediately on Start', default=True)
 
     def __init__(self):
         super().__init__()
@@ -22,43 +19,39 @@ class IntervalTrigger():
         super().start()
         self.counter = 0
         self._stop_event.clear()
-        # import pdb; pdb.set_trace()
-        # self.run()
         spawn(self.run)
 
     def run(self):
-        sigs_left = int(self.total_signals) if self.total_signals > 0 else None
-        max_count = int(self.max_count)
-        interval = self.interval.total_seconds()
+        # We'll keep track of when each iteration is expected to finish
+        interval_secs = self.interval.total_seconds()
+        expected_finish = time() + interval_secs
 
-        if not self.notify_on_start:
-            sleep(interval)
-
-        start = time()
         while not self._stop_event.is_set():
-            if sigs_left is None or sigs_left > max_count:
-                to_gen = max_count
-            else:
-                to_gen = sigs_left
-            sigs = self.generate_signals(to_gen)
+            sigs = self.generate_signals()
+
+            # If a generator is returned, build the list
             if not isinstance(sigs, list):
                 sigs = list(sigs)
+
+            # Add however many signals were generated (in case multiple
+            # signals mixin was used) to the counter and notify them
+            self.counter += len(sigs)
             self.notify_signals(sigs)
-            self.counter += to_gen
-            if sigs_left is not None:
-                sigs_left -= to_gen
-                if sigs_left <= 0:
-                    break
+
+            if self.counter > self.total_signals and self.total_signals > 0:
+                # We have reached our total, stop
+                break
 
             # sleep the exact correct amount of time
-            try:
-                sleep_start = time()
-                tosleep = interval - (sleep_start - start)
-                sleep(tosleep)
-                over = tosleep - (time() - sleep_start)
-            except ValueError:
-                over = 0
-            start = time() + over
+            time_remaining = expected_finish - time()
+            if time_remaining > 0:
+                # If we have time remaining, sleep until the next iteration
+                sleep(time_remaining)
+
+            # One iteration is complete, increment our next "expected finish"
+            # time. This expected_finish could fall behind the actual time
+            # if it takes longer than interval_secs to generate the signals
+            expected_finish += interval_secs
 
     def stop(self):
         """ Stop the simulator thread. """
