@@ -1,4 +1,4 @@
-import time
+from time import time, sleep
 
 from nio.metadata.properties import TimeDeltaProperty, BoolProperty, IntProperty
 from nio.modules.threading import Event, spawn
@@ -27,17 +27,14 @@ class IntervalTrigger():
         spawn(self.run)
 
     def run(self):
-        # pull into local namespace for speed
-        ttime = time.time
-        tsleep = time.sleep
         sigs_left = int(self.total_signals) if self.total_signals > 0 else None
         max_count = int(self.max_count)
         interval = self.interval.total_seconds()
 
         if not self.notify_on_start:
-            tsleep(interval)
+            sleep(interval)
 
-        start = ttime()
+        start = time()
         while not self._stop_event.is_set():
             if sigs_left is None or sigs_left > max_count:
                 to_gen = max_count
@@ -55,13 +52,13 @@ class IntervalTrigger():
 
             # sleep the exact correct amount of time
             try:
-                sleep_start = ttime()
+                sleep_start = time()
                 tosleep = interval - (sleep_start - start)
-                tsleep(tosleep)
-                over = tosleep - (ttime() - sleep_start)
+                sleep(tosleep)
+                over = tosleep - (time() - sleep_start)
             except ValueError:
                 over = 0
-            start = ttime() + over
+            start = time() + over
 
     def stop(self):
         """ Stop the simulator thread. """
