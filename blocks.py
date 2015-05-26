@@ -43,4 +43,4 @@ class FileIntervalSimulator(
         IntervalTrigger,
         Block):
 
-    version = VersionProperty('1.0.1')
+    version = VersionProperty('1.1.0')
