@@ -71,13 +71,14 @@ that a signal has been notified.
 
 #### FileGenerator
 
-Creates signals as defined by a json file. The file must be a list of dictionaries where each dictionary is a nio Signal.
+Creates signals as defined by a json file. The file must be a list of dictionaries where each dictionary is a nio Signal. The file should be loadable using `json.load`.
 
-Each call to generate_signals will return a randomly selected signal from the list loaded in from the json file.
+Each call to generate_signals will return a signal from the list loaded in from the json file.
 
 ##### Properties
 
 -   **signals_file**: The location of the file containing a list of signals. It can be an absolute file location, relative to the root project directory or relative to the block path.
+-   **random_selection**: Whether or not to randomly pull from the file. If unchecked, the simulator will iterate through the file sequentially.
 
 ##### Output
 
