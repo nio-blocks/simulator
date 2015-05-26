@@ -2,8 +2,7 @@ import json
 import random
 from os.path import join, dirname, realpath, isfile
 from nio.common.signal.base import Signal
-from nio.modules.threading import Lock
-from nio.metadata.properties import StringProperty
+from nio.metadata.properties import StringProperty, BoolProperty
 from nio.util.environment import NIOEnvironment
 
 
@@ -12,25 +11,43 @@ class FileGenerator():
 
     signals_file = StringProperty(
         title='Signals File', default='signals.json')
+    random_selection = BoolProperty(
+        title='Choose Randomly?', default=True)
 
     def __init__(self):
         super().__init__()
         self._json_signals = None
-        self._num_signals = 0
+        self._index = 0
 
     def configure(self, context):
         super().configure(context)
         self._json_signals = self._load_json_file()
-        self._num_signals = len(self._json_signals) \
-            if self._json_signals else 0
+        if not self._json_signals:
+            raise Exception("Couldn't find JSON signals in file")
         self._logger.debug(
-            'Loaded {} signals from file'.format(self._num_signals))
+            'Loaded {} signals from file'.format(len(self._json_signals)))
 
     def generate_signals(self, n=1):
-        if self._num_signals:
-            return [Signal(random.choice(self._json_signals))]
+        return [self._get_next_signal() for i in range(n)]
+
+    def _get_next_signal(self):
+        """ Get the next individual signal from the file.
+
+        If configured to do so, this will pull randomly from the file.
+        Otherwise, it will return the next one in line.
+        """
+        if self.random_selection:
+            return Signal(random.choice(self._json_signals))
         else:
-            return []
+            sig = Signal(self._json_signals[self._index])
+            self._increment_index()
+            return sig
+
+    def _increment_index(self):
+        """ Increment the current index, rollover when necessary """
+        self._index += 1
+        if self._index >= len(self._json_signals):
+            self._index = 0
 
     def _load_json_file(self):
         '''Loads the configured JSON file with signals
