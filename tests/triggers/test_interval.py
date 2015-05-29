@@ -23,9 +23,9 @@ class TestInterval(NIOBlockTestCase):
         interval.generate_signals = MagicMock(return_value=returns)
 
         interval.start()
-        # Give it enough time for one notification
-        # (not one immediately, one after a second)
+        # Give it enough time for two notifications
+        # (one immediately, one after a second)
         sleep(1.5)
         interval.stop()
 
-        self.assert_num_signals_notified(2)
+        self.assert_num_signals_notified(4)
