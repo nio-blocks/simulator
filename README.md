@@ -117,12 +117,12 @@ Notifies signals every interval.
 
 ##### Properties
 
--   **notify_on_start**: Whether or not to immediately notify simulated signals
 -   **interval**: How often should the block notify signals
+-   **total_signals**: The maximum number of signals to notify overall. If less than 0 (-1 by default), then the trigger will continue to notify indefinitely until the block is stopped.
    
 
 ##### Output
-For a **CounterIntervalSimulator** with start=0, stop=12, step=3, and max_count = 3, 
+For a **CounterIntervalSimulator** with start=0, stop=12, step=3, and num_signals = 3, 
 the output will be:
 > **Note:** `*` is the point that the signals are notified
 
@@ -134,7 +134,7 @@ the output will be:
 The **IntervalTrigger** operates in a single thread, so under heavy loads the interval 
 will be ignored and signals will only be output as fast as they can.
 
-For example, if max_count == 14 from the above example, the output would look like:
+For example, if num_signals = 14 from the above example, the output would look like:
 > **Note:** `*` is the point that the signals are notified
 
 > **Note:** Compare the below to the Output in **SafeTrigger**
