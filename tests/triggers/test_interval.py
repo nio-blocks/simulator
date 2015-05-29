@@ -17,8 +17,7 @@ class TestInterval(NIOBlockTestCase):
         self.configure_block(interval, {
             'interval': {
                 'seconds': 1
-            },
-            'notify_on_start': False
+            }
         })
         returns = [Signal(), Signal()]
         interval.generate_signals = MagicMock(return_value=returns)
