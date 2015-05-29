@@ -40,6 +40,7 @@ class IdentityIntervalSimulator(
 
 @Discoverable(DiscoverableType.block)
 class FileIntervalSimulator(
+        MultipleSignals,
         FileGenerator,
         IntervalTrigger,
         Block):
