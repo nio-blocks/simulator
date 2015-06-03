@@ -50,11 +50,12 @@ class TestCounter(NIOBlockTestCase):
 
         self.assertEqual(len(results), 5)
         self.assertEqual(results, [0, 1, 2, 0, 1])
-        # import pdb; pdb.set_trace()
         results = get_values(counter.generate_signals(5))
         self.assertEqual(results, [2, 0, 1, 2, 0])
+        results = get_values(counter.generate_signals(4))
+        self.assertEqual(results, [1, 2, 0, 1])
         results = get_values(counter.generate_signals(5))
-        self.assertEqual(results, [1, 2, 0, 1, 2])
+        self.assertEqual(results, [2, 0, 1, 2, 0])
 
     def test_multiple_counts(self):
         counter = SampleCounterMultipleBlock()
