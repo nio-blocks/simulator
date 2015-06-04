@@ -1,4 +1,5 @@
-from itertools import chain, repeat
+from itertools import chain, repeat, islice
+from math import ceil
 
 from nio.common.signal.base import Signal
 from nio.modules.threading import Lock
@@ -13,6 +14,7 @@ class Value(PropertyHolder):
 
 
 class CounterGenerator():
+
     '''A fast numeric batch generator'''
 
     attr_name = StringProperty(default='sim', title='Simulated Attribute')
@@ -20,34 +22,33 @@ class CounterGenerator():
 
     def __init__(self):
         super().__init__()
-        self.cur_count = 0
         self.count_lock = Lock()
-        self._lasti = 0
-        self.range = None
+        self._range = None
+        self._range_length = 0
+        self._skip_count = 0
 
     def configure(self, context):
         super().configure(context)
-        self._lasti = 0
-        self.range = range(self.attr_value.start, self.attr_value.end + 1,
-                           self.attr_value.step)
+        self._range = range(self.attr_value.start, self.attr_value.end + 1,
+                            self.attr_value.step)
+        self._range_length = len(self._range)
 
     def generate_signals(self, n=1):
-        # bring variables into local space for minor speedup
         with self.count_lock:
-            # pull into local namespace for speed
-            S = Signal
-            myrange = self.range
-            rlen = len(myrange)
+            # Build enough range objects to simulate n signals
+            ranges = repeat(self._range, ceil(n / self._range_length) + 1)
 
-            ranges = []
-            sigs = 0
-            # this is how much is left of the previously used range
-            lasti = self._lasti
-            while sigs < n:
-                r = myrange[lasti: lasti + (n - sigs)]
-                lasti = (lasti + len(r)) % rlen
-                sigs += len(r)
-                ranges.append(r)
-            self._lasti = lasti
-            return (S({name: value}) for (name, value) in
-                    zip(repeat(self.attr_name, sigs), chain.from_iterable(ranges)))
+            # Build an iterator to return the value
+            # Skip some if we need to make sure we start at the right spot
+            values_iterator = islice(
+                chain.from_iterable(ranges), self._skip_count, None)
+
+            # In case n is not divisible by the range length, we may need to
+            # skip a number of items next time to make sure we start counting
+            # in the right spot
+            self._skip_count = (self._skip_count + n) % self._range_length
+
+            return (
+                Signal({name: value})
+                for (name, value) in
+                zip(repeat(self.attr_name, n), values_iterator))
