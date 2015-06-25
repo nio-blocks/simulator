@@ -38,7 +38,7 @@ class IntervalTrigger():
             self.counter += len(sigs)
             self.notify_signals(sigs)
 
-            if self.counter > self.total_signals and self.total_signals > 0:
+            if self.total_signals > 0 and self.counter >= self.total_signals:
                 # We have reached our total, stop
                 break
 
