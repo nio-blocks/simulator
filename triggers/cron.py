@@ -1,17 +1,17 @@
 from datetime import datetime
 from datetime import timedelta
-from nio.metadata.properties import TimeDeltaProperty, IntProperty, \
-    ObjectProperty, PropertyHolder, StringProperty
+from nio.metadata.properties import TimeDeltaProperty, StringProperty, \
+    ObjectProperty, PropertyHolder
 from nio.modules.scheduler import Job
 from nio.modules.threading import Event, Lock, spawn
 
 
 class CronConf(PropertyHolder):
-    minute = IntProperty(title='Minute', default=1)
-    hour = IntProperty(title='Hour', default=0)
-    day_of_month = IntProperty(title='Day of Month', default=0)
-    month = IntProperty(title='Month', default=0)
-    day_of_week = IntProperty(title='Day of Week', default=0)
+    minute = StringProperty(title='Minute', default='0')
+    hour = StringProperty(title='Hour', default='0')
+    day_of_month = StringProperty(title='Day of Month', default='*')
+    month = StringProperty(title='Month', default='*')
+    day_of_week = StringProperty(title='Day of Week', default='*')
 
 
 class CronTrigger():
@@ -27,8 +27,12 @@ class CronTrigger():
 
     def configure(self, context):
         super().configure(context)
-        # TODO: make this real. for now, default to midnight cron setting
-        self._cron_specs = [0, 0, '*', '*', '*']
+        # TODO: check that the config is valid cron syntax
+        self._cron_specs = [self.cron.minute,
+                            self.cron.hour,
+                            self.cron.day_of_month,
+                            self.cron.month,
+                            self.cron.day_of_week]
 
     def start(self):
         super().start()
@@ -45,10 +49,14 @@ class CronTrigger():
         super().stop()
 
     def _cron(self):
-        """ Called every minute to check if cron job should nority signals """
+        """ Called every minute to check if cron job should notify signals """
         self._logger.debug("Checking if cron emit should run")
         now = datetime.utcnow()
-        now = [now.minute, now.hour, now.day, now.month, now.weekday()]
+        now = [str(now.minute),
+               str(now.hour),
+               str(now.day),
+               str(now.month),
+               str(now.weekday())]
         if self._check_cron(now):
             spawn(self._emit)
 
@@ -61,11 +69,15 @@ class CronTrigger():
             # '*' should match no matter what
             if self._cron_specs[i] == '*':
                 now[i] = '*'
+        # TODO: handle more interesting cron settings than just numbers and '*'
         return now == self._cron_specs
 
     def _emit(self):
         self._logger.debug("Generating signals")
         signals = self.generate_signals()
+        # If a generator is returned, build the list
+        if not isinstance(signals, list):
+            signals = list(signals)
         if signals:
             self._logger.debug("Notifying {} signals".format(len(signals)))
             self.notify_signals(signals)

@@ -22,17 +22,43 @@ class TestCron(NIOBlockTestCase):
 
     @patch(CronTrigger.__module__ + '.datetime')
     def test_default(self, mock_dt):
-        """ Test that signals are notified at the right time """
+        """ Test that signals are notified at midnight """
         blk = SampleCronBlock()
         self.configure_block(blk, {})
         returns = [Signal()]
         blk.generate_signals = MagicMock(return_value=returns)
-        mock_dt.utcnow.return_value = datetime(2015, 6, 25, 0, 0)
-
-        # Give it enough time to complete two cycles - one right when the block
-        # starts, the other after the first second has elapsed
+        mock_dt.utcnow.side_effect = [datetime(2015, 6, 25, 0, 0)]
         blk.start()
-        sleep(1.5)
+        sleep(0.5)
         blk.stop()
-
         self.assert_num_signals_notified(1)
+
+    @patch(CronTrigger.__module__ + '.datetime')
+    def test_cron_match(self, mock_dt):
+        """ Test that signals are notified at one minute after midnight """
+        blk = SampleCronBlock()
+        self.configure_block(blk, {
+            "cron": {"minute": 1}
+        })
+        returns = [Signal()]
+        blk.generate_signals = MagicMock(return_value=returns)
+        mock_dt.utcnow.return_value = datetime(2015, 6, 25, 0, 1)
+        blk.start()
+        sleep(0.5)
+        blk.stop()
+        self.assert_num_signals_notified(1)
+
+    @patch(CronTrigger.__module__ + '.datetime')
+    def test_cron_no_match(self, mock_dt):
+        """ Test that signals are not notified at midnight """
+        blk = SampleCronBlock()
+        self.configure_block(blk, {
+            "cron": {"minute": 1}
+        })
+        returns = [Signal()]
+        blk.generate_signals = MagicMock(return_value=returns)
+        mock_dt.utcnow.return_value = datetime(2015, 6, 25, 0, 0)
+        blk.start()
+        sleep(0.5)
+        blk.stop()
+        self.assert_num_signals_notified(0)
