@@ -17,7 +17,7 @@ class CounterIntervalSimulator(
         IntervalTrigger,
         Block):
 
-    version = VersionProperty('1.2.0')
+    version = VersionProperty('1.3.0')
 
 
 @Discoverable(DiscoverableType.block)
@@ -36,7 +36,7 @@ class IdentityIntervalSimulator(
         IntervalTrigger,
         Block):
 
-    version = VersionProperty('1.1.0')
+    version = VersionProperty('1.2.0')
 
 
 @Discoverable(DiscoverableType.block)
@@ -46,7 +46,7 @@ class FileIntervalSimulator(
         IntervalTrigger,
         Block):
 
-    version = VersionProperty('1.1.0')
+    version = VersionProperty('1.2.0')
 
 @Discoverable(DiscoverableType.block)
 class IdentityCronSimulator(
