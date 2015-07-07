@@ -28,15 +28,18 @@ class FileGenerator():
             'Loaded {} signals from file'.format(len(self._json_signals)))
 
     def generate_signals(self, n=1):
-        return [self._get_next_signal() for i in range(n)]
+        # If generating all signals, don't do it randomly.
+        _random = False if n == -1 else self.random_selection
+        n = len(self._json_signals) if n == -1 else n
+        return [self._get_next_signal(_random) for i in range(n)]
 
-    def _get_next_signal(self):
+    def _get_next_signal(self, _random=False):
         """ Get the next individual signal from the file.
 
         If configured to do so, this will pull randomly from the file.
         Otherwise, it will return the next one in line.
         """
-        if self.random_selection:
+        if _random:
             return Signal(random.choice(self._json_signals))
         else:
             sig = Signal(self._json_signals[self._index])
