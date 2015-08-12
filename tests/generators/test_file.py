@@ -66,6 +66,37 @@ class TestFile(NIOBlockTestCase):
         self.assertEqual(three_signals[1].a, 'A')
         self.assertEqual(three_signals[2].b, 'B')
 
+    def test_all_signals(self):
+        """ All signals are emitted when number of signals is -1 """
+        blk = SampleFileBlock()
+        blk._load_json_file = MagicMock(return_value=[
+            {'a': 'A'}, {'b': 'B'}, {'c': 'C'}])
+        self.configure_block(blk, {
+            "random_selection": False
+        })
+        all_signals = blk.generate_signals(n=-1)
+        self.assertEqual(len(all_signals), 3)
+        self.assertEqual(all_signals[0].a, 'A')
+        self.assertEqual(all_signals[1].b, 'B')
+        self.assertEqual(all_signals[2].c, 'C')
+
+    def test_all_signals_random(self):
+        """ All signals are emitted when number of signals is -1
+
+        random_selection property is ignored when selecting all signals.
+        """
+        blk = SampleFileBlock()
+        blk._load_json_file = MagicMock(return_value=[
+            {'a': 'A'}, {'b': 'B'}, {'c': 'C'}])
+        self.configure_block(blk, {
+            "random_selection": True
+        })
+        all_signals = blk.generate_signals(n=-1)
+        self.assertEqual(len(all_signals), 3)
+        self.assertEqual(all_signals[0].a, 'A')
+        self.assertEqual(all_signals[1].b, 'B')
+        self.assertEqual(all_signals[2].c, 'C')
+
     def test_load_json_file_bad(self):
         blk = SampleFileBlock()
         with self.assertRaises(Exception):

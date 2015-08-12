@@ -75,6 +75,8 @@ Creates signals as defined by a json file. The file must be a list of dictionari
 
 Each call to generate_signals will return a signal from the list loaded in from the json file.
 
+When asked to generate -1 signals, it will generate all signals in the file.
+
 ##### Properties
 
 -   **signals_file**: The location of the file containing a list of signals. It can be an absolute file location, relative to the root project directory or relative to the block path.
