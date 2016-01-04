@@ -104,6 +104,30 @@ class TestFile(NIOBlockTestCase):
         json_sigs = blk._load_json_file()
         self.assertIsNone(json_sigs)
 
+    def test_empty_json_list_random_selection(self):
+        """ Block starts but emits no signals """
+        blk = SampleFileBlock()
+        blk._load_json_file = MagicMock(return_value=[])
+        self.configure_block(blk, {
+            "random_selection": True
+        })
+        signals = blk.generate_signals()
+        self.assertEqual(len(signals), 0)
+        all_signals = blk.generate_signals(n=-1)
+        self.assertEqual(len(all_signals), 0)
+
+    def test_empty_json_list_no_random_selection(self):
+        """ Block starts but emits no signals """
+        blk = SampleFileBlock()
+        blk._load_json_file = MagicMock(return_value=[])
+        self.configure_block(blk, {
+            "random_selection": False
+        })
+        signals = blk.generate_signals()
+        self.assertEqual(len(signals), 0)
+        all_signals = blk.generate_signals(n=-1)
+        self.assertEqual(len(all_signals), 0)
+
     def test_load_json_file(self):
         blk = SampleFileBlock()
         self.configure_block(blk, {
