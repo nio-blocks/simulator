@@ -22,7 +22,7 @@ class FileGenerator():
     def configure(self, context):
         super().configure(context)
         self._json_signals = self._load_json_file()
-        if not self._json_signals:
+        if self._json_signals is None:
             raise Exception("Couldn't find JSON signals in file")
         self._logger.debug(
             'Loaded {} signals from file'.format(len(self._json_signals)))
@@ -30,7 +30,10 @@ class FileGenerator():
     def generate_signals(self, n=1):
         # If generating all signals, don't do it randomly.
         _random = False if n == -1 else self.random_selection
+        # Generate all signals if n is -1.
         n = len(self._json_signals) if n == -1 else n
+        # If we didn't load signals from file, don't generate any.
+        n = n if len(self._json_signals) else 0
         return [self._get_next_signal(_random) for i in range(n)]
 
     def _get_next_signal(self, _random=False):
