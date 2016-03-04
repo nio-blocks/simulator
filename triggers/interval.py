@@ -1,7 +1,8 @@
 from time import time, sleep
 
-from nio.metadata.properties import TimeDeltaProperty, BoolProperty, IntProperty
-from nio.modules.threading import Event, spawn
+from nio.properties import TimeDeltaProperty, IntProperty
+from nio.util.threading import spawn
+from threading import Event
 
 
 class IntervalTrigger():
@@ -23,7 +24,7 @@ class IntervalTrigger():
 
     def run(self):
         # We'll keep track of when each iteration is expected to finish
-        interval_secs = self.interval.total_seconds()
+        interval_secs = self.interval().total_seconds()
         expected_finish = time() + interval_secs
 
         while not self._stop_event.is_set():
@@ -38,7 +39,8 @@ class IntervalTrigger():
             self.counter += len(sigs)
             self.notify_signals(sigs)
 
-            if self.total_signals > 0 and self.counter >= self.total_signals:
+            if self.total_signals() > 0 and \
+                    self.counter >= self.total_signals():
                 # We have reached our total, stop
                 break
 

@@ -1,7 +1,7 @@
 from unittest.mock import MagicMock
 from ...generators.file import FileGenerator
-from nio.common.block.base import Block
-from nio.util.support.block_test_case import NIOBlockTestCase
+from nio import Block
+from nio.testing.block_test_case import NIOBlockTestCase
 
 
 class SampleFileBlock(FileGenerator, Block):

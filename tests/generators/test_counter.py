@@ -1,7 +1,7 @@
 from ...multiple import MultipleSignals
 from ...generators.counter import CounterGenerator
-from nio.common.block.base import Block
-from nio.util.support.block_test_case import NIOBlockTestCase
+from nio import Block
+from nio.testing.block_test_case import NIOBlockTestCase
 
 
 class SampleCounterBlock(CounterGenerator, Block):

@@ -5,12 +5,11 @@ from .generators.file import FileGenerator
 from .triggers.interval import IntervalTrigger
 from .triggers.safe import SafeTrigger
 from .triggers.cron import CronTrigger
-from nio.common.block.base import Block
-from nio.common.discovery import Discoverable, DiscoverableType
-from nio.metadata.properties.version import VersionProperty
+from nio import Block, discoverable
+from nio.properties.version import VersionProperty
 
 
-@Discoverable(DiscoverableType.block)
+@discoverable
 class CounterIntervalSimulator(
         MultipleSignals,
         CounterGenerator,
@@ -20,7 +19,7 @@ class CounterIntervalSimulator(
     version = VersionProperty('1.3.0')
 
 
-@Discoverable(DiscoverableType.block)
+@discoverable
 class CounterSafeSimulator(
         CounterGenerator,
         SafeTrigger,
@@ -29,7 +28,7 @@ class CounterSafeSimulator(
     version = VersionProperty('1.1.0')
 
 
-@Discoverable(DiscoverableType.block)
+@discoverable
 class IdentityIntervalSimulator(
         MultipleSignals,
         IdentityGenerator,
@@ -39,7 +38,7 @@ class IdentityIntervalSimulator(
     version = VersionProperty('1.2.0')
 
 
-@Discoverable(DiscoverableType.block)
+@discoverable
 class FileIntervalSimulator(
         MultipleSignals,
         FileGenerator,
@@ -48,7 +47,8 @@ class FileIntervalSimulator(
 
     version = VersionProperty('1.3.0')
 
-@Discoverable(DiscoverableType.block)
+
+@discoverable
 class IdentityCronSimulator(
         MultipleSignals,
         IdentityGenerator,

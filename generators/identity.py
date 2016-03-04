@@ -1,4 +1,4 @@
-from nio.common.signal.base import Signal
+from nio import Signal
 
 
 class IdentityGenerator():
