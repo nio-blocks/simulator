@@ -67,4 +67,6 @@ class TestInterval(NIOBlockTestCase):
         sleep(0.5)
         interval.stop()
 
+        # Although 6 signals are notified, the interval trigger only allows
+        # 5 signals to be notified because total_signals is 5
         self.assert_num_signals_notified(5)

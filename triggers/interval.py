@@ -42,8 +42,7 @@ class IntervalTrigger():
             #if true, then pop list (counter - total_signals)
             #amount of times
             if self.counter > self.total_signals() and self.total_signals() >= 0:
-                # for i in range(self.counter - self.total_signals()):
-                #     sigs.pop()
+                #self.counter - self.total_signals() yield that amount of signals that should be removed
                 sigs_to_remove = self.counter - self.total_signals()
                 sigs = sigs[:-1 * sigs_to_remove]
 
