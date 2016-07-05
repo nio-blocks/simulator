@@ -37,6 +37,12 @@ class IntervalTrigger():
             # Add however many signals were generated (in case multiple
             # signals mixin was used) to the counter and notify them
             self.counter += len(sigs)
+            
+            if self.counter > self.total_signals() and self.total_signals() >= 0:
+                #self.counter - self.total_signals() yield that amount of signals that should be removed
+                sigs_to_remove = self.counter - self.total_signals()
+                sigs = sigs[:-1 * sigs_to_remove]
+
             self.notify_signals(sigs)
 
             if self.total_signals() > 0 and \
