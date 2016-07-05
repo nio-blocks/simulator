@@ -10,8 +10,7 @@ class SampleIntervalBlock(IntervalTrigger, Block):
 class TestInterval(NIOBlockTestCase):
 
     def test_interval_default(self):
-        '''Testing to see if interval trigger notifies all signals
-            when total signals is not specified. '''
+        ''' Testing if interval trigger notifies all signals when total signals is not specified. '''
         interval = SampleIntervalBlock()
         self.configure_block(interval, {
             'interval': {
@@ -30,8 +29,7 @@ class TestInterval(NIOBlockTestCase):
         self.assert_num_signals_notified(4)
 
     def test_total_signals(self):
-        '''Testing if total_signals limits notified signals to 
-            one despite enough time for two signals generated '''
+        ''' Testing if total_signals limits notified signals to one despite enough time for two signals generated '''
         interval = SampleIntervalBlock()
         self.configure_block(interval, {
             'interval': {
@@ -51,8 +49,7 @@ class TestInterval(NIOBlockTestCase):
         self.assert_num_signals_notified(1)
 
     def test_extra_generated_signals(self):
-        '''Testing to see if 5 signals are notified despite 6 signals
-            being generated due to multiple signals '''
+        '''Testing to see if 5 signals are notified despite 6 signals being generated due to multiple signals '''
         interval = SampleIntervalBlock()
         self.configure_block(interval, {
             'interval': {
