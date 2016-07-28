@@ -2,7 +2,7 @@ import json
 import random
 from os.path import join, dirname, realpath, isfile
 from nio import Signal
-from nio.properties import StringProperty, BoolProperty, FileProperty
+from nio.properties import BoolProperty, FileProperty
 
 
 class FileGenerator():
