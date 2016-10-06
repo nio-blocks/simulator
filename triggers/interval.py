@@ -1,9 +1,5 @@
-from time import time, sleep
-
 from nio.modules.scheduler import Job
 from nio.properties import TimeDeltaProperty, IntProperty
-from nio.util.threading import spawn
-from threading import Event
 
 
 class IntervalTrigger():
