@@ -1,4 +1,4 @@
-from nio.metadata.properties import IntProperty
+from nio.properties import IntProperty
 
 
 class MultipleSignals():
@@ -16,6 +16,6 @@ class MultipleSignals():
         # then we don't want to override that here - they probably have a
         # good reason for doing so
         if n is None:
-            n = self.num_signals
+            n = self.num_signals()
 
         return super().generate_signals(n)

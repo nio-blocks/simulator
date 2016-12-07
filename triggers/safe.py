@@ -1,6 +1,7 @@
-from nio.metadata.properties import TimeDeltaProperty, IntProperty
+from nio.properties import TimeDeltaProperty, IntProperty
 from nio.modules.scheduler import Job
-from nio.modules.threading import Event, Lock, spawn
+from nio.util.threading import spawn
+from threading import Event, Lock
 
 
 class SafeTrigger():
@@ -18,7 +19,7 @@ class SafeTrigger():
 
     def start(self):
         super().start()
-        self._job = Job(self._emit, self.interval, True)
+        self._job = Job(self._emit, self.interval(), True)
         # Run an emit cycle immediately, but in a new thread since it
         # might take some time and we don't want it to hold up start
         spawn(self._emit)
@@ -33,7 +34,7 @@ class SafeTrigger():
 
     def _emit(self):
         """ Called every *interval* to generate then notify the signals """
-        self._logger.debug("New generation cycle requested")
+        self.logger.debug("New generation cycle requested")
         count = 0
         signals = []
 
@@ -43,10 +44,10 @@ class SafeTrigger():
         with self.signal_lock:
             # Ok, we're running, so clear the event and wait
             self.stop_event.clear()
-            self._logger.debug("Starting generation...")
-            while count < self.max_count and not self.stop_event.is_set():
+            self.logger.debug("Starting generation...")
+            while count < self.max_count() and not self.stop_event.is_set():
                 signals.extend(self.generate_signals(1))
                 count += 1
 
-        self._logger.debug("Notifying {} signals".format(len(signals)))
+        self.logger.debug("Notifying {} signals".format(len(signals)))
         self.notify_signals(signals)

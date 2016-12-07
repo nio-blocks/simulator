@@ -1,9 +1,7 @@
-from datetime import datetime
-from datetime import timedelta
-from nio.metadata.properties import TimeDeltaProperty, StringProperty, \
-    ObjectProperty, PropertyHolder
+from datetime import datetime, timedelta
+from nio.properties import StringProperty, ObjectProperty, PropertyHolder
 from nio.modules.scheduler import Job
-from nio.modules.threading import Event, Lock, spawn
+from nio.util.threading import spawn
 
 
 class CronConf(PropertyHolder):
@@ -28,11 +26,11 @@ class CronTrigger():
     def configure(self, context):
         super().configure(context)
         # TODO: check that the config is valid cron syntax
-        self._cron_specs = [self.cron.minute,
-                            self.cron.hour,
-                            self.cron.day_of_month,
-                            self.cron.month,
-                            self.cron.day_of_week]
+        self._cron_specs = [self.cron().minute(),
+                            self.cron().hour(),
+                            self.cron().day_of_month(),
+                            self.cron().month(),
+                            self.cron().day_of_week()]
 
     def start(self):
         super().start()
@@ -50,7 +48,7 @@ class CronTrigger():
 
     def _cron(self):
         """ Called every minute to check if cron job should notify signals """
-        self._logger.debug("Checking if cron emit should run")
+        self.logger.debug("Checking if cron emit should run")
         now = datetime.utcnow()
         now = [str(now.minute),
                str(now.hour),
@@ -73,13 +71,13 @@ class CronTrigger():
         return now == self._cron_specs
 
     def _emit(self):
-        self._logger.debug("Generating signals")
+        self.logger.debug("Generating signals")
         signals = self.generate_signals()
         # If a generator is returned, build the list
         if not isinstance(signals, list):
             signals = list(signals)
         if signals:
-            self._logger.debug("Notifying {} signals".format(len(signals)))
+            self.logger.debug("Notifying {} signals".format(len(signals)))
             self.notify_signals(signals)
         else:
-            self._logger.debug("No signals generated")
+            self.logger.debug("No signals generated")

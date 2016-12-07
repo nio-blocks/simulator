@@ -1,7 +1,8 @@
+from os.path import dirname, join
 from unittest.mock import MagicMock
 from ...generators.file import FileGenerator
-from nio.common.block.base import Block
-from nio.util.support.block_test_case import NIOBlockTestCase
+from nio import Block
+from nio.testing.block_test_case import NIOBlockTestCase
 
 
 class SampleFileBlock(FileGenerator, Block):
@@ -131,7 +132,8 @@ class TestFile(NIOBlockTestCase):
     def test_load_json_file(self):
         blk = SampleFileBlock()
         self.configure_block(blk, {
-            'signals_file': '../tests/generators/signals.json'
+            # Using absolute path because otherwise test fails in other dir
+            'signals_file': join(dirname(__file__), 'signals.json')
         })
         json_sigs = blk._load_json_file()
         self.assertEqual(len(json_sigs), 5)

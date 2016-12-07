@@ -1,10 +1,10 @@
 from itertools import chain, repeat, islice
 from math import ceil
 
-from nio.common.signal.base import Signal
-from nio.modules.threading import Lock
-from nio.metadata.properties import PropertyHolder, ObjectProperty, \
-    IntProperty, StringProperty
+from nio import Signal
+from threading import Lock
+from nio.properties import PropertyHolder, ObjectProperty, IntProperty, \
+    StringProperty
 
 
 class Value(PropertyHolder):
@@ -29,8 +29,9 @@ class CounterGenerator():
 
     def configure(self, context):
         super().configure(context)
-        self._range = range(self.attr_value.start, self.attr_value.end + 1,
-                            self.attr_value.step)
+        self._range = range(self.attr_value().start(),
+                            self.attr_value().end() + 1,
+                            self.attr_value().step())
         self._range_length = len(self._range)
 
     def generate_signals(self, n=1):
@@ -51,4 +52,4 @@ class CounterGenerator():
             return (
                 Signal({name: value})
                 for (name, value) in
-                zip(repeat(self.attr_name, n), values_iterator))
+                zip(repeat(self.attr_name(), n), values_iterator))

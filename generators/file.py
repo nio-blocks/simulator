@@ -1,15 +1,14 @@
 import json
 import random
 from os.path import join, dirname, realpath, isfile
-from nio.common.signal.base import Signal
-from nio.metadata.properties import StringProperty, BoolProperty
-from nio.util.environment import NIOEnvironment
+from nio import Signal
+from nio.properties import BoolProperty, FileProperty
 
 
 class FileGenerator():
     '''A generator that pull signals from a file'''
 
-    signals_file = StringProperty(
+    signals_file = FileProperty(
         title='Signals File', default='signals.json')
     random_selection = BoolProperty(
         title='Choose Randomly?', default=True)
@@ -24,12 +23,12 @@ class FileGenerator():
         self._json_signals = self._load_json_file()
         if self._json_signals is None:
             raise Exception("Couldn't find JSON signals in file")
-        self._logger.debug(
+        self.logger.debug(
             'Loaded {} signals from file'.format(len(self._json_signals)))
 
     def generate_signals(self, n=1):
         # If generating all signals, don't do it randomly.
-        _random = False if n == -1 else self.random_selection
+        _random = False if n == -1 else self.random_selection()
         # Generate all signals if n is -1.
         n = len(self._json_signals) if n == -1 else n
         # If we didn't load signals from file, don't generate any.
@@ -59,33 +58,14 @@ class FileGenerator():
         '''Loads the configured JSON file with signals
 
         Returns json file or None if failed to load file.
-        '''
+        '''    
 
-        # Let's figure out where the file is
-        filename = self._get_valid_file(
-            # First, just see if it's maybe already a file?
-            self.signals_file,
-            # Next, try in the NIO environment
-            NIOEnvironment.get_path(self.signals_file),
-            # Finally, try relative to the current file
-            join(dirname(realpath(__file__)), self.signals_file),
-        )
-
-        if filename is None:
-            self._logger.error(
-                'Could not find key file {0}. Should be an absolute path or '
-                'relative to the current environment.'.format(
-                    self.signals_file))
-            return None
-        else:
-            self._logger.info('Loading signals from file: {}'.format(filename))
-
-        with open(filename) as json_file:
+        with self.signals_file() as json_file:
             try:
                 json_data = json.load(json_file)
                 return json_data
             except:
-                self._logger.exception('Failed to load json signals file')
+                self.logger.exception('Failed to load json signals file')
 
     def _get_valid_file(self, *args):
         '''Go through args and return the first valid file.
