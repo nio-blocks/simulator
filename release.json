@@ -1,0 +1,27 @@
+{
+  "nio/FileGenerator": {
+    "Language": "Python",
+    "Reference": "github.com/nio-blocks/simulator.git@v1.0.0",
+    "Version": "1.0.0"
+  },
+  "nio/SafeTrigger": {
+    "Language": "Python",
+    "Reference": "github.com/nio-blocks/simulator.git@v1.0.0",
+    "Version": "1.0.0"
+  },
+  "nio/Simulator": {
+    "Language": "Python",
+    "Reference": "github.com/nio-blocks/simulator.git@v1.0.0",
+    "Version": "1.0.0"
+  },
+  "nio/IntervalTrigger": {
+    "Language": "Python",
+    "Reference": "github.com/nio-blocks/simulator.git@v1.0.0",
+    "Version": "1.0.0"
+  },
+  "nio/IdentityGenerator": {
+    "Language": "Python",
+    "Reference": "github.com/nio-blocks/simulator.git@v1.0.0",
+    "Version": "1.0.0"
+  }
+}

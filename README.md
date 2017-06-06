@@ -1,5 +1,5 @@
-# Simulator
-
+Simulator
+===========
 A library of simulators as well as a framework for creating new types of signal simulators.
 
 A simulator is a Block that is comprised of one Generator and one or more 
@@ -41,8 +41,8 @@ increments, UPC codes to simulate, etc).
 
 Creates signals with one numeric attribute that will increment each time.
 
-##### Properties
-
+Properties
+----------
 -   **attr_name**: The name of the attribute on the Signal
 -   **attr_value**:
  -    **start**: Number that the simulator starts at
@@ -50,43 +50,51 @@ Creates signals with one numeric attribute that will increment each time.
  -    **step**: Number that the simulator increments between each simulation
    -    Note: `start, stop, step = 0, 6, 3` will simulate `[0, 3, 6, 0, 3, ...]`
 
-##### Output
+Output
+--------
 For a counter with start=0, stop=12, step=3
 ```
 [ 0  3  6  9 12  0  3  6 ...]
 ```
+***
 
-#### IdentityGenerator
+IdentityGenerator
+=================
 
 Creates empty signals. This is most likely useful for driving some other type 
 of Block that doesn't necessarily care about the signal contents, but rather 
 that a signal has been notified.
 
-##### Output
+Output
+--------
 > **Note:** `{}` is an empty Signal object
 
 ```
 [{} {} {} {} {} ...]
 ```
 
-#### FileGenerator
+***
 
+FileGenerator
+=============
 Creates signals as defined by a json file. The file must be a list of dictionaries where each dictionary is a nio Signal. The file should be loadable using `json.load`.
 
 Each call to generate_signals will return a signal from the list loaded in from the json file.
 
 When asked to generate -1 signals, it will generate all signals in the file.
 
-##### Properties
+Properties
+----------
 
 -   **signals_file**: The location of the file containing a list of signals. It can be an absolute file location, relative to the root project directory or relative to the block path.
 -   **random_selection**: Whether or not to randomly pull from the file. If unchecked, the simulator will iterate through the file sequentially.
 
-##### Output
-
+Output
+----------
 Each output signal will be equivalent to a dictionary pulled in from the `signals_file`.
 
-## Triggers
+Triggers
+--------
 
 A Trigger's job is to determine when signals should be generated and notified. 
 There is no strictly defined interface for a Trigger's implementation, but it 
@@ -110,20 +118,21 @@ class OneSecondTrigger():
             sleep(1)
 ```
 
-### Existing Triggers
+***
 
-#### IntervalTrigger
+IntervalTrigger
+===============
 
 Notifies signals every interval.
 
-
-##### Properties
-
+Properties
+----------
 -   **interval**: How often should the block notify signals
 -   **total_signals**: The maximum number of signals to notify overall. If less than 0 (-1 by default), then the trigger will continue to notify indefinitely until the block is stopped.
    
 
-##### Output
+Output
+------
 For a **CounterIntervalSimulator** with start=0, stop=12, step=3, and num_signals = 3, 
 the output will be:
 > **Note:** `*` is the point that the signals are notified
@@ -147,22 +156,22 @@ For example, if num_signals = 14 from the above example, the output would look l
 ```
 In real-word applications this will happen at > 30,000 signals / second on most computers
 
-#### SafeTrigger
+***
+SafeTrigger
+===========
 
 Notify every interval - regardless of how many signals were created
 
 ***Does not support MultipleSignals***
 
-##### Properties
+Properties
+----------
 
 -   **interval**: How often should the block notify signals
--   **max_count**: Maximum signals to notify — the block will never notify 
-    more signals than this count every interval. However, if the number is too 
-    high for it to create, it may return less than this number. The only 
-    guarantee made by this block is that a notification will happen every 
-    interval
+-   **max_count**: Maximum signals to notify — the block will never notify more signals than this count every interval. However, if the number is too high for it to create, it may return less than this number. The only guarantee made by this block is that a notification will happen every interval
 
-##### Output
+Output
+------
 For a **CounterSafeSimulator** with `start=0, stop=12, step=3, and max_count = 3`
 the output will be:
 > **Note:** `*` is the point that the signals are notified
@@ -190,7 +199,8 @@ notify anyways
 In real-word applications this will happen at > 3,000 signals / second on most computers
 
 
-## Blocks
+Blocks
+------
 
 Ok, we've got some Generators and some Triggers, now it's time to make a 
 block! We're going to use [Python's multiple inheritance](https://docs.python.org/3.4/tutorial/classes.html#multiple-inheritance) 
@@ -219,7 +229,8 @@ By having a library of Generators and Triggers, we allow you to create tons of
 combinations of Simulators!
 
 
-## Multiple Signals
+Multiple Signals
+----------------
 
 Sometimes it's useful to simulate multiple signals at a time. The simulator 
 repository also defines a Simulator Mix-in called `MultipleSignals`. This 

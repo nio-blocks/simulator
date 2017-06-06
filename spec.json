@@ -1,0 +1,83 @@
+{
+  "nio/FileGenerator": {
+    "Category": "Simulator",
+    "Properties": {
+      "signals_file": {
+        "description": "The location of the file containing a list of signals. It can be an absolute file location, relative to the root project directory or relative to the block path."
+      },
+      "random_selection": {
+        "description": "Whether or not to randomly pull from the file. If unchecked, the simulator will iterate through the file sequentially."
+      }
+    },
+    "Output": "Each output signal will be equivalent to a dictionary pulled in from the `signals_file`.",
+    "Description": "Creates signals as defined by a json file. The file must be a list of dictionaries where each dictionary is a nio Signal. The file should be loadable using `json.load`.\nEach call to generate_signals will return a signal from the list loaded in from the json file.\nWhen asked to generate -1 signals, it will generate all signals in the file.",
+    "Miscellaneous": {
+      "Triggers": "A Trigger's job is to determine when signals should be generated and notified.\nThere is no strictly defined interface for a Trigger's implementation, but it\nwill almost certainly need to call `self.generate_signals()` at some point to\nbe effective. Just like a Generator, the Trigger can define functionality\ninside standard block methods (just make sure to call `super()` in the\nimplementation!). The Trigger is also responsible for notifying the signals,\nso it will likely make some `self.notify_signals` calls as well.\nHere is an example of a Trigger that will generate signals every second.\n> Note: don't use this Trigger, it won't respond to block stop events, it's\njust an example:\n```python\nclass OneSecondTrigger():\ndef start(self):\nsuper().start()\nwhile True:\nself.notify_signals(self.generate_signals())\nsleep(1)\n```"
+    },
+    "Version": "1.0.0"
+  },
+  "nio/SafeTrigger": {
+    "Properties": {
+      "interval": {
+        "description": "How often should the block notify signals"
+      },
+      "max_count": {
+        "description": "Maximum signals to notify \u2014 the block will never notify more signals than this count every interval. However, if the number is too high for it to create, it may return less than this number. The only guarantee made by this block is that a notification will happen every interval"
+      }
+    },
+    "Output": "For a **CounterSafeSimulator** with `start=0, stop=12, step=3, and max_count = 3`\nthe output will be:\n> **Note:** `*` is the point that the signals are notified\n```\n|------interval------|------interval------|------interval------|------interval------|\n[ 0  3  6*             9 12  0*             3  6  9*            12  0  3*           ]\n```\nThe **SafeTrigger** uses threading so that it can guarantee a notification every\ninterval under heavy loads.\nFor example, if `max_count == 14` from the above example, the output would look like:\n> **Note:** `*` is the point that the signals are notified\n> **Note:** Compare the below to the Output in **IntervalTrigger**\n```\n|------interval------|------interval------|------interval------|------interval------|\n[ 0  3  6  9 12  0  3* 6  9 12  0  3  6  9*12  0  3  6  9 12  0* 3  6  9 12  0  3  6*]\n```\nIn other words, if the simulator cannot reach `max_count` in the interval time, it will\nnotify anyways\nIn real-word applications this will happen at > 3,000 signals / second on most computers",
+    "Category": "Simulator",
+    "Description": "Notify every interval - regardless of how many signals were created\n***Does not support MultipleSignals***",
+    "Version": "1.0.0"
+  },
+  "nio/Simulator": {
+    "Description": "A library of simulators as well as a framework for creating new types of signal simulators.\nA simulator is a Block that is comprised of one Generator and one or more\nTriggers. In general, simulators can be \"assembled\" by using Python's multiple\ninheritance to make use of existing Generators and Triggers. In some cases,\nyou may want to define your own Generator or Trigger, this is also documented\nbelow.\n## Generators\nGenerators are responsible for one and only one thing: generating signals.\nThey are classes that can utilize standard block methods (i.e. `start`,\n`configure`, etc) but the only requirement is that they define a\n`generate_signals` method. This method must accept one optional parameter, `n`.\nThe implementation of `generate_signals` should return a list of `Signal`\nobjects with length of list equal to `n`.\nHere is possibly the simplest implementation of a Generator - it will simply\nreturn empty signals:\n```python\nclass IdentityGenerator():\ndef generate_signals(self, n=1):\nreturn [Signal() for i in range(n)]\n```\nThere is no guarantee that generators will get called from the same thread, so\nit is generally good practice to use `Lock` objects to make the generator\nthread safe.\nGenerators likely will need to internally keep track of any additional\nvariables used to generate the next signals (i.e. current value that\nincrements, UPC codes to simulate, etc).\n### Existing Generators\n#### CounterGenerator\nCreates signals with one numeric attribute that will increment each time.",
+    "Properties": {
+      "attr_value": {
+        "description": ""
+      },
+      "attr_name": {
+        "description": "The name of the attribute on the Signal"
+      },
+      "Note": {
+        "description": "`start, stop, step = 0, 6, 3` will simulate `[0, 3, 6, 0, 3, ...]`"
+      },
+      "step": {
+        "description": "Number that the simulator increments between each simulation"
+      },
+      "stop": {
+        "description": "Number that the simulator stops at"
+      },
+      "start": {
+        "description": "Number that the simulator starts at"
+      }
+    },
+    "Output": "For a counter with start=0, stop=12, step=3\n```\n[ 0  3  6  9 12  0  3  6 ...]\n```",
+    "Category": "Simulator",
+    "Version": "1.0.0"
+  },
+  "nio/IntervalTrigger": {
+    "Properties": {
+      "interval": {
+        "description": "How often should the block notify signals"
+      },
+      "total_signals": {
+        "-1": "by",
+        "description": "The maximum number of signals to notify overall. If less than 0 , then the trigger will continue to notify indefinitely until the block is stopped."
+      }
+    },
+    "Output": "For a **CounterIntervalSimulator** with start=0, stop=12, step=3, and num_signals = 3,\nthe output will be:\n> **Note:** `*` is the point that the signals are notified\n```\n|------interval------|------interval------|------interval------|------interval------|\n[ 0  3  6*             9 12  0*             3  6  9*            12  0  3*           ]\n```\nThe **IntervalTrigger** operates in a single thread, so under heavy loads the interval\nwill be ignored and signals will only be output as fast as they can.\nFor example, if num_signals = 14 from the above example, the output would look like:\n> **Note:** `*` is the point that the signals are notified\n> **Note:** Compare the below to the Output in **SafeTrigger**\n```\n|------interval------|------interval------|------interval------|------interval------|\n[ 0  3  6  9 12  0  3  6  9 12  0  3  6  9*12  0  3  6  9 12  0  3  6  9 12  0  3  6*]\n```\nIn real-word applications this will happen at > 30,000 signals / second on most computers",
+    "Description": "Notifies signals every interval.",
+    "Category": "Simulator",
+    "Miscellaneous": {
+      "Triggers": "A Trigger's job is to determine when signals should be generated and notified.\nThere is no strictly defined interface for a Trigger's implementation, but it\nwill almost certainly need to call `self.generate_signals()` at some point to\nbe effective. Just like a Generator, the Trigger can define functionality\ninside standard block methods (just make sure to call `super()` in the\nimplementation!). The Trigger is also responsible for notifying the signals,\nso it will likely make some `self.notify_signals` calls as well.\nHere is an example of a Trigger that will generate signals every second.\n> Note: don't use this Trigger, it won't respond to block stop events, it's\njust an example:\n```python\nclass OneSecondTrigger():\ndef start(self):\nsuper().start()\nwhile True:\nself.notify_signals(self.generate_signals())\nsleep(1)\n```\nIntervalTrigger"
+    },
+    "Version": "1.0.0"
+  },
+  "nio/IdentityGenerator": {
+    "Description": "Creates empty signals. This is most likely useful for driving some other type\nof Block that doesn't necessarily care about the signal contents, but rather\nthat a signal has been notified.",
+    "Output": "> **Note:** `{}` is an empty Signal object\n```\n[{} {} {} {} {} ...]\n```",
+    "Category": "Simulator",
+    "Version": "1.0.0"
+  }
+}
