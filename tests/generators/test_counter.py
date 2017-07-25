@@ -1,13 +1,16 @@
 from ...multiple import MultipleSignals
 from ...generators.counter import CounterGenerator
 from nio import Block
+from nio.util.discovery import not_discoverable
 from nio.testing.block_test_case import NIOBlockTestCase
 
 
+@not_discoverable
 class SampleCounterBlock(CounterGenerator, Block):
     pass
 
 
+@not_discoverable
 class SampleCounterMultipleBlock(MultipleSignals, CounterGenerator, Block):
     pass
 
