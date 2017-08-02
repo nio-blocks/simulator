@@ -1,27 +1,27 @@
 {
   "nio/CounterIntervalSimulator": {
-    "Language": "Python",
-    "Reference": "github.com/nio-blocks/simulator.git@v1.0.0",
-    "Version": "1.3.0"
+    "language": "Python",
+    "version": "0.0.1",
+    "reference": "github.com/nio-blocks/simulator.git@v0.0.1"
   },
   "nio/CounterSafeSimulator": {
-    "Language": "Python",
-    "Reference": "github.com/nio-blocks/simulator.git@v1.0.0",
-    "Version": "1.1.0"
+    "language": "Python",
+    "version": "0.0.1",
+    "reference": "github.com/nio-blocks/simulator.git@v0.0.1"
   },
   "nio/FileIntervalSimulator": {
-    "Language": "Python",
-    "Reference": "github.com/nio-blocks/simulator.git@v1.0.0",
-    "Version": "1.3.0"
+    "language": "Python",
+    "version": "0.0.1",
+    "reference": "github.com/nio-blocks/simulator.git@v0.0.1"
   },
   "nio/IdentityCronSimulator": {
-    "Language": "Python",
-    "Reference": "github.com/nio-blocks/simulator.git@v1.0.0",
-    "Version": "0.1.0"
+    "language": "Python",
+    "version": "0.0.1",
+    "reference": "github.com/nio-blocks/simulator.git@v0.0.1"
   },
   "nio/IdentityIntervalSimulator": {
-    "Language": "Python",
-    "Reference": "github.com/nio-blocks/simulator.git@v1.0.0",
-    "Version": "1.2.0"
+    "language": "Python",
+    "version": "0.0.1",
+    "reference": "github.com/nio-blocks/simulator.git@v0.0.1"
   }
 }

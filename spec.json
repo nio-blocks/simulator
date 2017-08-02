@@ -1,150 +1,42 @@
 {
   "nio/CounterIntervalSimulator": {
-    "Commands": {},
-    "Dependencies": [],
-    "Description": "",
-    "Input": "",
-    "Output": "",
-    "Properties": {
-      "Interval": {
-        "default": {
-          "seconds": 1
-        },
-        "description": ""
-      },
-      "Number of Signals": {
-        "default": 1,
-        "description": ""
-      },
-      "Simulated Attribute": {
-        "default": "sim",
-        "description": ""
-      },
-      "Simulated Value": {
-        "default": {
-          "end": 1,
-          "start": 0,
-          "step": 1
-        },
-        "description": ""
-      },
-      "Total Number of Signals": {
-        "default": -1,
-        "description": ""
-      }
-    },
-    "Version": "1.3.0"
+    "version": "0.0.1",
+    "description": "",
+    "inputs": {},
+    "outputs": {},
+    "properties": {},
+    "commands": {}
   },
   "nio/CounterSafeSimulator": {
-    "Commands": {},
-    "Dependencies": [],
-    "Description": "",
-    "Input": "",
-    "Output": "",
-    "Properties": {
-      "Interval": {
-        "default": {
-          "seconds": 1
-        },
-        "description": ""
-      },
-      "Max Count": {
-        "default": 1,
-        "description": ""
-      },
-      "Simulated Attribute": {
-        "default": "sim",
-        "description": ""
-      },
-      "Simulated Value": {
-        "default": {
-          "end": 1,
-          "start": 0,
-          "step": 1
-        },
-        "description": ""
-      }
-    },
-    "Version": "1.1.0"
+    "version": "0.0.1",
+    "description": "",
+    "inputs": {},
+    "outputs": {},
+    "properties": {},
+    "commands": {}
   },
   "nio/FileIntervalSimulator": {
-    "Commands": {},
-    "Dependencies": [],
-    "Description": "",
-    "Input": "",
-    "Output": "",
-    "Properties": {
-      "Choose Randomly?": {
-        "default": true,
-        "description": ""
-      },
-      "Interval": {
-        "default": {
-          "seconds": 1
-        },
-        "description": ""
-      },
-      "Number of Signals": {
-        "default": 1,
-        "description": ""
-      },
-      "Signals File": {
-        "default": "signals.json",
-        "description": ""
-      },
-      "Total Number of Signals": {
-        "default": -1,
-        "description": ""
-      }
-    },
-    "Version": "1.3.0"
+    "version": "0.0.1",
+    "description": "",
+    "inputs": {},
+    "outputs": {},
+    "properties": {},
+    "commands": {}
   },
   "nio/IdentityCronSimulator": {
-    "Commands": {},
-    "Dependencies": [],
-    "Description": "",
-    "Input": "",
-    "Output": "",
-    "Properties": {
-      "Cron Schedule": {
-        "default": {
-          "day_of_month": "*",
-          "day_of_week": "*",
-          "hour": "0",
-          "minute": "0",
-          "month": "*"
-        },
-        "description": ""
-      },
-      "Number of Signals": {
-        "default": 1,
-        "description": ""
-      }
-    },
-    "Version": "0.1.0"
+    "version": "0.0.1",
+    "description": "",
+    "inputs": {},
+    "outputs": {},
+    "properties": {},
+    "commands": {}
   },
   "nio/IdentityIntervalSimulator": {
-    "Commands": {},
-    "Dependencies": [],
-    "Description": "",
-    "Input": "",
-    "Output": "",
-    "Properties": {
-      "Interval": {
-        "default": {
-          "seconds": 1
-        },
-        "description": ""
-      },
-      "Number of Signals": {
-        "default": 1,
-        "description": ""
-      },
-      "Total Number of Signals": {
-        "default": -1,
-        "description": ""
-      }
-    },
-    "Version": "1.2.0"
+    "version": "0.0.1",
+    "description": "",
+    "inputs": {},
+    "outputs": {},
+    "properties": {},
+    "commands": {}
   }
 }
