@@ -1,9 +1,11 @@
 from os.path import dirname, join
 from unittest.mock import MagicMock
-from ...generators.file import FileGenerator
+
 from nio import Block
 from nio.util.discovery import not_discoverable
 from nio.testing.block_test_case import NIOBlockTestCase
+
+from ...generators.file import FileGenerator
 
 
 @not_discoverable

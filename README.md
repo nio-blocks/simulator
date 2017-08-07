@@ -168,7 +168,7 @@ Properties
 ----------
 
 -   **interval**: How often should the block notify signals
--   **max_count**: Maximum signals to notify — the block will never notify more signals than this count every interval. However, if the number is too high for it to create, it may return less than this number. The only guarantee made by this block is that a notification will happen every interval
+-   **max_count**: Maximum signals to notify — the block will never notify more signals than this count every interval. However, if the number is too high for it to create, it may return less than this number. The only guarantee made by this block is that a notification will happen every interval.
 
 Output
 ------

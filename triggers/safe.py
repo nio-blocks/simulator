@@ -1,7 +1,8 @@
+from threading import Event, Lock
+
 from nio.properties import TimeDeltaProperty, IntProperty
 from nio.modules.scheduler import Job
 from nio.util.threading import spawn
-from threading import Event, Lock
 
 
 class SafeTrigger():
