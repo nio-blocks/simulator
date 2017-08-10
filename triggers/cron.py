@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+
 from nio.properties import StringProperty, ObjectProperty, PropertyHolder
 from nio.modules.scheduler import Job
 from nio.util.threading import spawn
@@ -14,7 +15,7 @@ class CronConf(PropertyHolder):
 
 class CronTrigger():
 
-    """ Notify signals accoriding to cron-like timetable """
+    """ Notify signals according to cron-like timetable """
 
     cron = ObjectProperty(CronConf, title='Cron Schedule', default=CronConf())
 
