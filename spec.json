@@ -5,20 +5,23 @@
     "properties": {
       "attr_name": {
         "title": "Simulated Attribute",
+        "type": "StringType",
         "description": "The name of the attribute on the Signal.",
         "default": "sim"
       },
       "attr_value": {
         "title": "Simulated Value",
+        "type": "ObjectType",
         "description": "The value assigned to the simulated attribute.",
         "default": {
-          "end": 1,
+          "start": 0,
           "step": 1,
-          "start": 0
+          "end": 1
         }
       },
       "interval": {
         "title": "Interval",
+        "type": "TimeDeltaType",
         "description": "How often should the block notify signals.",
         "default": {
           "seconds": 1
@@ -26,11 +29,13 @@
       },
       "num_signals": {
         "title": "Number of Signals",
+        "type": "IntType",
         "description": "How many signals get notified at once.",
         "default": 1
       },
       "total_signals": {
         "title": "Total Number of Signals",
+        "type": "IntType",
         "description": "The maximum number of signals to notify overall. If less than 0 (-1 by default), then the trigger will continue to notify indefinitely until the block is stopped.",
         "default": -1
       }
@@ -49,20 +54,23 @@
     "properties": {
       "attr_name": {
         "title": "Simulated Attribute",
+        "type": "StringType",
         "description": "The name of the attribute on the Signal.",
         "default": "sim"
       },
       "attr_value": {
         "title": "Simulated Value",
+        "type": "ObjectType",
         "description": "The value assigned to the simulated attribute.",
         "default": {
-          "end": 1,
+          "start": 0,
           "step": 1,
-          "start": 0
+          "end": 1
         }
       },
       "interval": {
         "title": "Interval",
+        "type": "TimeDeltaType",
         "description": "How often should the block notify signals.",
         "default": {
           "seconds": 1
@@ -70,7 +78,8 @@
       },
       "max_count": {
         "title": "Max Count",
-        "description": "Maximum signals to notify — the block will never notify more signals than this count every interval. However, if the number is too high for it to create, it may return less than this number. The only guarantee made by this block is that a notification will happen every interval.",
+        "type": "IntType",
+        "description": "Maximum signals to notify \u2014 the block will never notify more signals than this count every interval. However, if the number is too high for it to create, it may return less than this number. The only guarantee made by this block is that a notification will happen every interval.",
         "default": 1
       }
     },
@@ -88,6 +97,7 @@
     "properties": {
       "interval": {
         "title": "Interval",
+        "type": "TimeDeltaType",
         "description": "How often should the block notify signals.",
         "default": {
           "seconds": 1
@@ -95,28 +105,32 @@
       },
       "num_signals": {
         "title": "Number of Signals",
+        "type": "IntType",
         "description": "How many signals get notified at once.",
         "default": 1
       },
       "random_selection": {
         "title": "Choose Randomly?",
+        "type": "BoolType",
         "description": "Whether or not to randomly pull from the file. If unchecked, the simulator will iterate through the file sequentially.",
         "default": true
       },
       "signals_file": {
         "title": "Signals File",
+        "type": "FileType",
         "description": "The location of the file containing a list of signals. It can be an absolute file location, relative to the root project directory or relative to the block path.",
         "default": "signals.json"
       },
       "total_signals": {
         "title": "Total Number of Signals",
+        "type": "IntType",
         "description": "The maximum number of signals to notify overall. If less than 0 (-1 by default), then the trigger will continue to notify indefinitely until the block is stopped.",
         "default": -1
       }
     },
     "inputs": {},
     "outputs": {
-            "default": {
+      "default": {
         "description": "The simulated signals."
       }
     },
@@ -128,17 +142,19 @@
     "properties": {
       "cron": {
         "title": "Cron Schedule",
+        "type": "ObjectType",
         "description": "",
         "default": {
-          "day_of_month": "*",
-          "month": "*",
           "hour": "0",
           "minute": "0",
-          "day_of_week": "*"
+          "day_of_month": "*",
+          "day_of_week": "*",
+          "month": "*"
         }
       },
       "num_signals": {
         "title": "Number of Signals",
+        "type": "IntType",
         "description": "How many signals get notified at once.",
         "default": 1
       }
@@ -157,6 +173,7 @@
     "properties": {
       "interval": {
         "title": "Interval",
+        "type": "TimeDeltaType",
         "description": "How often should the block notify signals.",
         "default": {
           "seconds": 1
@@ -164,11 +181,13 @@
       },
       "num_signals": {
         "title": "Number of Signals",
+        "type": "IntType",
         "description": "How many signals get notified at once.",
         "default": 1
       },
       "total_signals": {
         "title": "Total Number of Signals",
+        "type": "IntType",
         "description": "The maximum number of signals to notify overall. If less than 0 (-1 by default), then the trigger will continue to notify indefinitely until the block is stopped.",
         "default": -1
       }
