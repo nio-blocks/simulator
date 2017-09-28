@@ -69,9 +69,9 @@ Simulate and notify signals according to a cron-like timetable
 
 Properties
 ----------
-- **cron**: 
+- **cron**:
 - **num_signals**: How many signals get notified at once.
-- **utc**: Use UTC time vs. local time.
+- **utc**: Use UTC time or local time.
 
 Inputs
 ------
