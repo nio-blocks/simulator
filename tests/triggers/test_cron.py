@@ -61,3 +61,24 @@ class TestCron(NIOBlockTestCase):
         sleep(0.5)
         blk.stop()
         self.assert_num_signals_notified(0)
+
+    @patch(CronTrigger.__module__ + '.datetime')
+    def test_cron_utc_false(self, mock_dt):
+        """ Test that signals are notified using MST """
+        blk = SampleCronBlock()
+        self.configure_block(blk, {
+            "cron": {"minute": 1},
+            "utc": False
+        })
+        returns = [Signal()]
+        blk.generate_signals = MagicMock(return_value=returns)
+        mock_dt.utcnow.return_value = datetime(2015, 6, 25, 0, 1)
+        blk.start()
+        sleep(0.5)
+        blk.stop()
+        self.assert_num_signals_notified(0)
+        mock_dt.now.return_value = datetime(2015, 6, 25, 0, 1)
+        blk.start()
+        sleep(0.5)
+        blk.stop()
+        self.assert_num_signals_notified(1)
