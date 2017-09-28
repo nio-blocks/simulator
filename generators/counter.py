@@ -1,8 +1,8 @@
 from itertools import chain, repeat, islice
 from math import ceil
+from threading import Lock
 
 from nio import Signal
-from threading import Lock
 from nio.properties import PropertyHolder, ObjectProperty, IntProperty, \
     StringProperty
 
@@ -15,7 +15,7 @@ class Value(PropertyHolder):
 
 class CounterGenerator():
 
-    '''A fast numeric batch generator'''
+    """A fast numeric batch generator"""
 
     attr_name = StringProperty(default='sim', title='Simulated Attribute')
     attr_value = ObjectProperty(Value, title='Simulated Value')

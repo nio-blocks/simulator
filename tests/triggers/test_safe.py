@@ -1,10 +1,14 @@
 from unittest.mock import MagicMock
 from time import sleep
-from ...triggers.safe import SafeTrigger
+
 from nio import Signal, Block
+from nio.util.discovery import not_discoverable
 from nio.testing.block_test_case import NIOBlockTestCase
 
+from ...triggers.safe import SafeTrigger
 
+
+@not_discoverable
 class SampleSafeBlock(SafeTrigger, Block):
     pass
 

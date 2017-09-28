@@ -1,16 +1,24 @@
 from unittest.mock import MagicMock
 from time import sleep
-from ...triggers.interval import IntervalTrigger
+
 from nio import Signal, Block
+from nio.util.discovery import not_discoverable
 from nio.testing.block_test_case import NIOBlockTestCase
 
+from ...triggers.interval import IntervalTrigger
+
+
+@not_discoverable
 class SampleIntervalBlock(IntervalTrigger, Block):
     pass
+
 
 class TestInterval(NIOBlockTestCase):
 
     def test_interval_default(self):
-        ''' Testing if interval trigger notifies all signals when total signals is not specified. '''
+        """ Interval trigger notifies all signals
+        when total signals is not specified.
+        """
         interval = SampleIntervalBlock()
         self.configure_block(interval, {
             'interval': {
@@ -29,7 +37,9 @@ class TestInterval(NIOBlockTestCase):
         self.assert_num_signals_notified(4)
 
     def test_total_signals(self):
-        ''' Testing if total_signals limits notified signals to one despite enough time for two signals generated '''
+        """ Total_signals limits notified signals to one
+        despite enough time for two signals generated
+        """
         interval = SampleIntervalBlock()
         self.configure_block(interval, {
             'interval': {
@@ -49,7 +59,9 @@ class TestInterval(NIOBlockTestCase):
         self.assert_num_signals_notified(1)
 
     def test_extra_generated_signals(self):
-        '''Testing to see if 5 signals are notified despite 6 signals being generated due to multiple signals '''
+        """5 signals are notified despite 6 signals being generated
+        due to multiple signals
+        """
         interval = SampleIntervalBlock()
         self.configure_block(interval, {
             'interval': {

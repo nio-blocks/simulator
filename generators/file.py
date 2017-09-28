@@ -1,12 +1,13 @@
 import json
 import random
-from os.path import join, dirname, realpath, isfile
+from os.path import isfile
+
 from nio import Signal
 from nio.properties import BoolProperty, FileProperty
 
 
 class FileGenerator():
-    '''A generator that pull signals from a file'''
+    """A generator that pull signals from a file"""
 
     signals_file = FileProperty(
         title='Signals File', default='signals.json')
@@ -55,10 +56,10 @@ class FileGenerator():
             self._index = 0
 
     def _load_json_file(self):
-        '''Loads the configured JSON file with signals
+        """Loads the configured JSON file with signals
 
         Returns json file or None if failed to load file.
-        '''    
+        """
 
         with self.signals_file() as json_file:
             try:
@@ -68,10 +69,10 @@ class FileGenerator():
                 self.logger.exception('Failed to load json signals file')
 
     def _get_valid_file(self, *args):
-        '''Go through args and return the first valid file.
+        """Go through args and return the first valid file.
 
         Returns None if none no valid file is found.
-        '''
+        """
         for arg in args:
             if isfile(arg):
                 return arg

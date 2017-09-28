@@ -1,11 +1,15 @@
 from unittest.mock import MagicMock, patch
 from datetime import datetime
 from time import sleep
-from ...triggers.cron import CronTrigger
+
 from nio import Signal, Block
+from nio.util.discovery import not_discoverable
 from nio.testing.block_test_case import NIOBlockTestCase
 
+from ...triggers.cron import CronTrigger
 
+
+@not_discoverable
 class SampleCronBlock(CronTrigger, Block):
     pass
 

@@ -14,7 +14,7 @@ class CronConf(PropertyHolder):
 
 class CronTrigger():
 
-    """ Notify signals accoriding to cron-like timetable """
+    """ Notify signals according to cron-like timetable """
 
     cron = ObjectProperty(CronConf, title='Cron Schedule', default=CronConf())
     utc = BoolProperty(title='UTC', default=True)

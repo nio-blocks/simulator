@@ -1,13 +1,17 @@
-from ...multiple import MultipleSignals
-from ...generators.identity import IdentityGenerator
 from nio import Block
+from nio.util.discovery import not_discoverable
 from nio.testing.block_test_case import NIOBlockTestCase
 
+from ...multiple import MultipleSignals
+from ...generators.identity import IdentityGenerator
 
+
+@not_discoverable
 class SampleIdentityBlock(IdentityGenerator, Block):
     pass
 
 
+@not_discoverable
 class SampleIdentityMultipleBlock(MultipleSignals, IdentityGenerator, Block):
     pass
 
