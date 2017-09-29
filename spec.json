@@ -169,6 +169,12 @@
         "type": "IntType",
         "description": "How many signals get notified at once.",
         "default": 1
+      },
+      "utc": {
+        "title": "UTC",
+        "type": "BoolType",
+        "description": "Use UTC time or local time.",
+        "default": true
       }
     },
     "inputs": {},

@@ -1,6 +1,5 @@
 from datetime import datetime, timedelta
-
-from nio.properties import StringProperty, ObjectProperty, PropertyHolder
+from nio.properties import StringProperty, ObjectProperty, PropertyHolder, BoolProperty
 from nio.modules.scheduler import Job
 from nio.util.threading import spawn
 
@@ -18,6 +17,7 @@ class CronTrigger():
     """ Notify signals according to cron-like timetable """
 
     cron = ObjectProperty(CronConf, title='Cron Schedule', default=CronConf())
+    utc = BoolProperty(title='UTC', default=True)
 
     def __init__(self):
         super().__init__()
@@ -50,7 +50,10 @@ class CronTrigger():
     def _cron(self):
         """ Called every minute to check if cron job should notify signals """
         self.logger.debug("Checking if cron emit should run")
-        now = datetime.utcnow()
+        if (self.utc()):
+            now = datetime.utcnow()
+        else:
+            now = datetime.now()
         now = [str(now.minute),
                str(now.hour),
                str(now.day),
