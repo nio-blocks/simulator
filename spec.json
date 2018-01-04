@@ -1,7 +1,7 @@
 {
   "nio/CounterIntervalSimulator": {
     "version": "1.3.0",
-    "description": "Simulates and notifies a signal every [interval] seconds.",
+    "description": "Simulates and emits a signal every [interval] seconds.",
     "categories": [
       "Signal Generator"
     ],
@@ -9,7 +9,7 @@
       "attr_name": {
         "title": "Simulated Attribute",
         "type": "StringType",
-        "description": "The name of the attribute on the Signal.",
+        "description": "The name of the simulated signal attribute.",
         "default": "sim"
       },
       "attr_value": {
@@ -25,7 +25,7 @@
       "interval": {
         "title": "Interval",
         "type": "TimeDeltaType",
-        "description": "How often should the block notify signals.",
+        "description": "How often to emit generated signals.",
         "default": {
           "seconds": 1
         }
@@ -33,13 +33,13 @@
       "num_signals": {
         "title": "Number of Signals",
         "type": "IntType",
-        "description": "How many signals get notified at once.",
+        "description": "The amount of signals to emit at each interval.",
         "default": 1
       },
       "total_signals": {
         "title": "Total Number of Signals",
         "type": "IntType",
-        "description": "The maximum number of signals to notify overall. If less than 0 (-1 by default), then the trigger will continue to notify indefinitely until the block is stopped.",
+        "description": "The maximum number of signals to emit overall after the service starts. If less than 0 (-1 by default), then the trigger will continue to emit signals indefinitely until the block is stopped.",
         "default": -1
       }
     },
@@ -53,7 +53,7 @@
   },
   "nio/CounterSafeSimulator": {
     "version": "1.1.0",
-    "description": "Simulates and notifies a signal every [interval] seconds, even if not all signals have been simulated.  If the max_count is too high, the block will notify a signal with however many signals it was able to create during the defined interval.",
+    "description": "Simulates and emits a signal every [interval] seconds, even if not all signals have been simulated.  If the 'max_count' is too high, the block will emit a signal with however many signals it was able to create during the defined interval.",
     "categories": [
       "Signal Generator"
     ],
@@ -61,7 +61,7 @@
       "attr_name": {
         "title": "Simulated Attribute",
         "type": "StringType",
-        "description": "The name of the attribute on the Signal.",
+        "description": "The name of the simulated signal attribute.",
         "default": "sim"
       },
       "attr_value": {
@@ -77,7 +77,7 @@
       "interval": {
         "title": "Interval",
         "type": "TimeDeltaType",
-        "description": "How often should the block notify signals.",
+        "description": "How often to emit generated signals.",
         "default": {
           "seconds": 1
         }
@@ -85,7 +85,7 @@
       "max_count": {
         "title": "Max Count",
         "type": "IntType",
-        "description": "Maximum signals to notify \u2014 the block will never notify more signals than this count every interval. However, if the number is too high for it to create, it may return less than this number. The only guarantee made by this block is that a notification will happen every interval.",
+        "description": "Maximum signals to emit. The block will never emit more signals than this count every interval. If the number is too high for it to create, it may emit less than this number. The only guarantee made by this block is that a notification will happen every interval.",
         "default": 1
       }
     },
@@ -107,7 +107,7 @@
       "interval": {
         "title": "Interval",
         "type": "TimeDeltaType",
-        "description": "How often should the block notify signals.",
+        "description": "How often to emit generated signals.",
         "default": {
           "seconds": 1
         }
@@ -133,7 +133,7 @@
       "total_signals": {
         "title": "Total Number of Signals",
         "type": "IntType",
-        "description": "The maximum number of signals to notify overall. If less than 0 (-1 by default), then the trigger will continue to notify indefinitely until the block is stopped.",
+        "description": "The maximum number of signals to emit overall. If less than 0 (-1 by default), then the trigger will continue to emit indefinitely until the block is stopped.",
         "default": -1
       }
     },
@@ -147,7 +147,7 @@
   },
   "nio/IdentityCronSimulator": {
     "version": "0.1.0",
-    "description": "Simulate and notify signals according to a cron-like timetable",
+    "description": "Simulate and emit signals according to a cron-like timetable",
     "categories": [
       "Signal Generator"
     ],
@@ -195,7 +195,7 @@
       "interval": {
         "title": "Interval",
         "type": "TimeDeltaType",
-        "description": "How often should the block notify signals.",
+        "description": "How often to emit generated signals.",
         "default": {
           "seconds": 1
         }
@@ -209,7 +209,7 @@
       "total_signals": {
         "title": "Total Number of Signals",
         "type": "IntType",
-        "description": "The maximum number of signals to notify overall. If less than 0 (-1 by default), then the trigger will continue to notify indefinitely until the block is stopped.",
+        "description": "The maximum number of signals to emit overall. If less than 0 (-1 by default), then the trigger will continue to emit indefinitely until the block is stopped.",
         "default": -1
       }
     },
