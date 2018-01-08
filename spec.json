@@ -155,7 +155,7 @@
       "cron": {
         "title": "Cron Schedule",
         "type": "ObjectType",
-        "description": "",
+        "description": "The time (UTC) at which to emit the simulated signals.",
         "default": {
           "hour": "0",
           "minute": "0",
