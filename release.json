@@ -7,7 +7,7 @@
   "nio/CounterSafeSimulator": {
     "language": "Python",
     "url": "git://github.com/nio-blocks/simulator.git",
-    "version": "1.1.0"
+    "version": "1.1.1"
   },
   "nio/FileIntervalSimulator": {
     "language": "Python",

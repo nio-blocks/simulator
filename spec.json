@@ -52,7 +52,7 @@
     "commands": {}
   },
   "nio/CounterSafeSimulator": {
-    "version": "1.1.0",
+    "version": "1.1.1",
     "description": "Simulates and emits a signal every [interval] seconds, even if not all signals have been simulated.  If the 'max_count' is too high, the block will emit a signal with however many signals it was able to create during the defined interval.",
     "categories": [
       "Signal Generator"
