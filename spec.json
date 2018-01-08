@@ -186,7 +186,7 @@
     "commands": {}
   },
   "nio/IdentityIntervalSimulator": {
-    "version": "1.2.0",
+    "version": "1.2.1",
     "description": "Simulates and notifies empty signals.",
     "categories": [
       "Signal Generator"
