@@ -29,10 +29,13 @@ class CounterGenerator():
 
     def configure(self, context):
         super().configure(context)
-        self._range = range(self.attr_value().start(),
-                            self.attr_value().end() + 1,
-                            self.attr_value().step())
-        self._range_length = len(self._range)
+        try:
+            self._range = range(self.attr_value().start(),
+                                self.attr_value().end() + 1,
+                                self.attr_value().step())
+            self._range_length = len(self._range)
+        except:
+            self.logger.exception("Step must be non-zero", exc_info=False)
 
     def generate_signals(self, n=1):
         with self.count_lock:
