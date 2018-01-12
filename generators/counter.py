@@ -40,18 +40,22 @@ class CounterGenerator():
 
     def generate_signals(self, n=1):
         with self.count_lock:
-            # Build enough range objects to simulate n signals
-            ranges = repeat(self._range, ceil(n / self._range_length) + 1)
+            if self._range_length != 1:
+                # Build enough range objects to simulate n signals
+                ranges = repeat(self._range, ceil(n / self._range_length) + 1)
 
-            # Build an iterator to return the value
-            # Skip some if we need to make sure we start at the right spot
-            values_iterator = islice(
-                chain.from_iterable(ranges), self._skip_count, None)
+                # Build an iterator to return the value
+                # Skip some if we need to make sure we start at the right spot
+                values_iterator = islice(
+                    chain.from_iterable(ranges), self._skip_count, None)
 
-            # In case n is not divisible by the range length, we may need to
-            # skip a number of items next time to make sure we start counting
-            # in the right spot
-            self._skip_count = (self._skip_count + n) % self._range_length
+                # In case n is not divisible by the range length, we may need to
+                # skip a number of items next time to make sure we start counting
+                # in the right spot
+                self._skip_count = (self._skip_count + n) % self._range_length
+            else:
+                ranges = repeat(self.attr_value().start(), n)
+                values_iterator = islice(ranges, 0, None)
 
             return (
                 Signal({name: value})
