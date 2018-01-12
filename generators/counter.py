@@ -29,10 +29,14 @@ class CounterGenerator():
 
     def configure(self, context):
         super().configure(context)
-        self._range = range(self.attr_value().start(),
-                            self.attr_value().end() + 1,
-                            self.attr_value().step())
-        self._range_length = len(self._range)
+        if self.attr_value().step() != 0:
+            self._range = range(self.attr_value().start(),
+                                self.attr_value().end() + 1,
+                                self.attr_value().step())
+            self._range_length = len(self._range)   
+        else:
+            self._range = self.attr_value().start()
+            self._range_length = 1
 
     def generate_signals(self, n=1):
         with self.count_lock:

@@ -80,3 +80,14 @@ class TestCounter(NIOBlockTestCase):
         self.assertEqual(len(results), 2)
         self.assertEqual(results[0].attr, 10)
         self.assertEqual(results[1].attr, 15)
+
+    def test_step0(self):
+        counter = SampleCounterBlock()
+        self.configure_block(counter, {
+            'attr_name': 'attr',
+            'attr_value': {
+                'start': 2,
+                'end': 2,
+                'step': 0
+            },
+        })
