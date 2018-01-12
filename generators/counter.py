@@ -29,9 +29,14 @@ class CounterGenerator():
 
     def configure(self, context):
         super().configure(context)
-        self._range = range(self.attr_value().start(),
-                            self.attr_value().end() + 1,
-                            self.attr_value().step())
+        if self.attr_value().step() != 0:
+            self._range = range(self.attr_value().start(),
+                                self.attr_value().end() + 1,
+                                self.attr_value().step())
+        else:
+            self._range = range(self.attr_value().start(),
+                                self.attr_value().start() + 1,
+                                1)
         self._range_length = len(self._range)
 
     def generate_signals(self, n=1):
@@ -44,9 +49,9 @@ class CounterGenerator():
             values_iterator = islice(
                 chain.from_iterable(ranges), self._skip_count, None)
 
-            # In case n is not divisible by the range length, we may need to
-            # skip a number of items next time to make sure we start counting
-            # in the right spot
+            # In case n is not divisible by the range length, we may need
+            # to skip a number of items next time to make sure we start
+            #  counting in the right spot
             self._skip_count = (self._skip_count + n) % self._range_length
 
             return (
