@@ -87,13 +87,14 @@ class TestCounter(NIOBlockTestCase):
             'attr_name': 'attr',
             'attr_value': {
                 'start': 2,
-                'end': 2,
+                'end': 5,
                 'step': 0
             },
         })
-        results = list(counter.generate_signals(3))
+        results = list(counter.generate_signals(4))
 
-        self.assertEqual(len(results), 3)
+        self.assertEqual(len(results), 4)
         self.assertEqual(results[0].attr, 2)
         self.assertEqual(results[1].attr, 2)
         self.assertEqual(results[2].attr, 2)
+        self.assertEqual(results[3].attr, 2)
