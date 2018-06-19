@@ -5,8 +5,8 @@ from nio.properties import TimeDeltaProperty, IntProperty
 class IntervalTrigger():
     """Generate signals at a regular interval up to total_signals"""
 
-    total_signals = IntProperty(title="Total Number of Signals", default=-1)
-    interval = TimeDeltaProperty(title='Interval', default={'seconds': 1})
+    total_signals = IntProperty(title="Total Number of Signals", default=-1, order=4)
+    interval = TimeDeltaProperty(title='Interval', default={'seconds': 1}, order=0)
 
     def __init__(self):
         super().__init__()

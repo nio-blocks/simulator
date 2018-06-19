@@ -9,8 +9,8 @@ class SafeTrigger():
 
     """ Guarantees notifying signals every interval, regardless of count """
 
-    interval = TimeDeltaProperty(title='Interval', default={'seconds': 1})
-    max_count = IntProperty(title='Max Count', default=1)
+    interval = TimeDeltaProperty(title='Interval', default={'seconds': 1}, order=0)
+    max_count = IntProperty(title='Max Count', default=1, order=1)
 
     def __init__(self):
         super().__init__()

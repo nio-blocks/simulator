@@ -16,8 +16,8 @@ class CronTrigger():
 
     """ Notify signals according to cron-like timetable """
 
-    cron = ObjectProperty(CronConf, title='Cron Schedule', default=CronConf())
-    utc = BoolProperty(title='UTC', default=True)
+    cron = ObjectProperty(CronConf, title='Cron Schedule', default=CronConf(), order=0)
+    utc = BoolProperty(title='UTC', default=True, advanced=True, order=1)
 
     def __init__(self):
         super().__init__()
