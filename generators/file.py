@@ -10,9 +10,9 @@ class FileGenerator():
     """A generator that pull signals from a file"""
 
     signals_file = FileProperty(
-        title='Signals File', default='signals.json')
+        title='Signals File', default='signals.json', order=2)
     random_selection = BoolProperty(
-        title='Choose Randomly?', default=True)
+        title='Choose Randomly?', default=True, order=3)
 
     def __init__(self):
         super().__init__()

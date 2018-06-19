@@ -9,7 +9,7 @@ class MultipleSignals():
     your simulator block.
     """
 
-    num_signals = IntProperty(title='Number of Signals', default=1)
+    num_signals = IntProperty(title='Number of Signals', default=1, advanced=True)
 
     def generate_signals(self, n=None):
         # If our trigger has explicitly defined how many signals to notify,
