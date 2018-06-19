@@ -17,7 +17,7 @@
   "nio/IdentityCronSimulator": {
     "language": "Python",
     "url": "git://github.com/nio-blocks/simulator.git",
-    "version": "0.1.1"
+    "version": "0.2.0"
   },
   "nio/IdentityIntervalSimulator": {
     "language": "Python",
