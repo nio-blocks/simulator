@@ -16,7 +16,7 @@ class CounterIntervalSimulator(
         IntervalTrigger,
         GeneratorBlock):
 
-    version = VersionProperty("1.2.0")
+    version = VersionProperty("1.3.0")
 
 
 class CounterSafeSimulator(
@@ -24,7 +24,7 @@ class CounterSafeSimulator(
         SafeTrigger,
         GeneratorBlock):
 
-    version = VersionProperty("1.2.0")
+    version = VersionProperty("1.3.0")
 
 
 class IdentityIntervalSimulator(
@@ -33,7 +33,7 @@ class IdentityIntervalSimulator(
         IntervalTrigger,
         GeneratorBlock):
 
-    version = VersionProperty("1.2.0")
+    version = VersionProperty("1.3.0")
 
 
 class FileIntervalSimulator(
@@ -42,7 +42,7 @@ class FileIntervalSimulator(
         IntervalTrigger,
         GeneratorBlock):
 
-    version = VersionProperty("1.2.0")
+    version = VersionProperty("1.3.0")
 
 
 class IdentityCronSimulator(
@@ -51,4 +51,4 @@ class IdentityCronSimulator(
         CronTrigger,
         GeneratorBlock):
 
-    version = VersionProperty("1.2.0")
+    version = VersionProperty("1.3.0")
