@@ -5,51 +5,9 @@
     "categories": [
       "Signal Generator"
     ],
-    "properties": {
-      "attr_name": {
-        "title": "Simulated Attribute",
-        "type": "StringType",
-        "description": "The name of the simulated signal attribute.",
-        "default": "sim"
-      },
-      "attr_value": {
-        "title": "Simulated Value",
-        "type": "ObjectType",
-        "description": "The value assigned to the simulated attribute.",
-        "default": {
-          "start": 0,
-          "step": 1,
-          "end": 1
-        }
-      },
-      "interval": {
-        "title": "Interval",
-        "type": "TimeDeltaType",
-        "description": "How often to emit generated signals.",
-        "default": {
-          "seconds": 1
-        }
-      },
-      "num_signals": {
-        "title": "Number of Signals",
-        "type": "IntType",
-        "description": "The amount of signals to emit at each interval.",
-        "default": 1
-      },
-      "total_signals": {
-        "title": "Total Number of Signals",
-        "type": "IntType",
-        "description": "The maximum number of signals to emit overall after the service starts. If less than 0 (-1 by default), then the trigger will continue to emit signals indefinitely until the block is stopped.",
-        "default": -1
-      }
-    },
-    "inputs": {},
-    "outputs": {
-      "default": {
-        "description": "The simulated signals."
-      }
-    },
-    "commands": {}
+    "tags": "simulator, generator, first, count",
+    "from_readme":"docs/counter_interval_simulator.md",
+    "from_python":""
   },
   "nio/CounterSafeSimulator": {
     "version": "1.2.0",
@@ -57,45 +15,9 @@
     "categories": [
       "Signal Generator"
     ],
-    "properties": {
-      "attr_name": {
-        "title": "Simulated Attribute",
-        "type": "StringType",
-        "description": "The name of the simulated signal attribute.",
-        "default": "sim"
-      },
-      "attr_value": {
-        "title": "Simulated Value",
-        "type": "ObjectType",
-        "description": "The value assigned to the simulated attribute.",
-        "default": {
-          "start": 0,
-          "step": 1,
-          "end": 1
-        }
-      },
-      "interval": {
-        "title": "Interval",
-        "type": "TimeDeltaType",
-        "description": "How often to emit generated signals.",
-        "default": {
-          "seconds": 1
-        }
-      },
-      "max_count": {
-        "title": "Max Count",
-        "type": "IntType",
-        "description": "Maximum signals to emit. The block will never emit more signals than this count every interval. If the number is too high for it to create, it may emit less than this number. The only guarantee made by this block is that a notification will happen every interval.",
-        "default": 1
-      }
-    },
-    "inputs": {},
-    "outputs": {
-      "default": {
-        "description": "The simulated signals."
-      }
-    },
-    "commands": {}
+    "tags":"",
+    "from_readme":"",
+    "from_python":""
   },
   "nio/FileIntervalSimulator": {
     "version": "1.4.0",
@@ -103,47 +25,9 @@
     "categories": [
       "Signal Generator"
     ],
-    "properties": {
-      "interval": {
-        "title": "Interval",
-        "type": "TimeDeltaType",
-        "description": "How often to emit generated signals.",
-        "default": {
-          "seconds": 1
-        }
-      },
-      "num_signals": {
-        "title": "Number of Signals",
-        "type": "IntType",
-        "description": "How many signals get notified at once.",
-        "default": 1
-      },
-      "random_selection": {
-        "title": "Choose Randomly?",
-        "type": "BoolType",
-        "description": "Whether or not to randomly pull from the file. If unchecked, the simulator will iterate through the file sequentially.",
-        "default": true
-      },
-      "signals_file": {
-        "title": "Signals File",
-        "type": "FileType",
-        "description": "The location of the file containing a list of signals. It can be an absolute file location, relative to the root project directory or relative to the block path.",
-        "default": "signals.json"
-      },
-      "total_signals": {
-        "title": "Total Number of Signals",
-        "type": "IntType",
-        "description": "The maximum number of signals to emit overall. If less than 0 (-1 by default), then the trigger will continue to emit indefinitely until the block is stopped.",
-        "default": -1
-      }
-    },
-    "inputs": {},
-    "outputs": {
-      "default": {
-        "description": "The simulated signals."
-      }
-    },
-    "commands": {}
+    "tags":"",
+    "from_readme":"",
+    "from_python":""
   },
   "nio/IdentityCronSimulator": {
     "version": "0.2.0",
@@ -151,39 +35,9 @@
     "categories": [
       "Signal Generator"
     ],
-    "properties": {
-      "cron": {
-        "title": "Cron Schedule",
-        "type": "ObjectType",
-        "description": "The time (UTC) at which to emit the simulated signals.",
-        "default": {
-          "hour": "0",
-          "minute": "0",
-          "day_of_month": "*",
-          "day_of_week": "*",
-          "month": "*"
-        }
-      },
-      "num_signals": {
-        "title": "Number of Signals",
-        "type": "IntType",
-        "description": "How many signals get notified at once.",
-        "default": 1
-      },
-      "utc": {
-        "title": "UTC",
-        "type": "BoolType",
-        "description": "Use UTC time or local time.",
-        "default": true
-      }
-    },
-    "inputs": {},
-    "outputs": {
-      "default": {
-        "description": "The simulated signals."
-      }
-    },
-    "commands": {}
+    "tags":"",
+    "from_readme":"",
+    "from_python":""
   },
   "nio/IdentityIntervalSimulator": {
     "version": "1.3.0",
@@ -191,34 +45,8 @@
     "categories": [
       "Signal Generator"
     ],
-    "properties": {
-      "interval": {
-        "title": "Interval",
-        "type": "TimeDeltaType",
-        "description": "How often to emit generated signals.",
-        "default": {
-          "seconds": 1
-        }
-      },
-      "num_signals": {
-        "title": "Number of Signals",
-        "type": "IntType",
-        "description": "How many signals get notified at once.",
-        "default": 1
-      },
-      "total_signals": {
-        "title": "Total Number of Signals",
-        "type": "IntType",
-        "description": "The maximum number of signals to emit overall. If less than 0 (-1 by default), then the trigger will continue to emit indefinitely until the block is stopped.",
-        "default": -1
-      }
-    },
-    "inputs": {},
-    "outputs": {
-      "default": {
-        "description": "The simulated signals."
-      }
-    },
-    "commands": {}
+    "tags":"",
+    "from_readme":"",
+    "from_python":""
   }
 }
