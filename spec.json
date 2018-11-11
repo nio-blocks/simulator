@@ -1,52 +1,52 @@
 {
   "nio/CounterIntervalSimulator": {
     "version": "1.4.0",
-    "description": "Simulates and emits a signal every [interval] seconds.",
+    "description": "Simulates and emits a signal containing an integer every [interval] seconds.",
     "categories": [
       "Signal Generator"
     ],
-    "tags": "simulator, generator, first, count",
+    "tags": "simulator generator first count start",
     "from_readme":"docs/counter_interval_simulator.md",
     "from_python":""
   },
   "nio/CounterSafeSimulator": {
     "version": "1.2.0",
-    "description": "Simulates and emits a signal every [interval] seconds, even if not all signals have been simulated.  If the 'max_count' is too high, the block will emit a signal with however many signals it was able to create during the defined interval.",
+    "description": "Simulates and emits a signal containing an integer every [interval] seconds, even if not all signals have been simulated.",
     "categories": [
       "Signal Generator"
     ],
-    "tags":"",
-    "from_readme":"",
+    "tags":"simulator genenerator first count start counter",
+    "from_readme":"docs/counter_safe_simulator.md",
     "from_python":""
   },
   "nio/FileIntervalSimulator": {
     "version": "1.4.0",
-    "description": "Creates signals as defined by a json file. The file must be a list of dictionaries where each dictionary is a nio Signal. The file should be loadable using `json.load`.  Each call to generate_signals will return a signal from the list loaded in from the json file.  When asked to generate -1 signals, it will generate all signals in the file.",
+    "description": "Creates signals as defined by a json file.",
     "categories": [
       "Signal Generator"
     ],
-    "tags":"",
-    "from_readme":"",
+    "tags":"simulator generator first start file json import read",
+    "from_readme":"docs/file_interval_simulator.md",
     "from_python":""
   },
   "nio/IdentityCronSimulator": {
     "version": "0.2.0",
-    "description": "Simulate and emit signals according to a cron-like timetable",
+    "description": "Simulate and emit signals according to a cron-like timetable.",
     "categories": [
       "Signal Generator"
     ],
-    "tags":"",
-    "from_readme":"",
+    "tags":"simulator generator first start time cron schedule",
+    "from_readme":"docs/identity_cron_simulator.md",
     "from_python":""
   },
   "nio/IdentityIntervalSimulator": {
     "version": "1.3.0",
-    "description": "Simulates and notifies empty signals.",
+    "description": "Simulates and emits empty signals every [interval] seconds.",
     "categories": [
       "Signal Generator"
     ],
-    "tags":"",
-    "from_readme":"",
+    "tags":"simulator generator first start empty signal synchronous",
+    "from_readme":"docs/identity_interval_simulator.md",
     "from_python":""
   }
 }
