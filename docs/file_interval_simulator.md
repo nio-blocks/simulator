@@ -1,6 +1,6 @@
 FileIntervalSimulator
 =====================
-Creates signals as defined by a json file. The file must be a list of dictionaries where each dictionary is a nio Signal. The file should be loadable using `json.load`.  Each call to generate_signals will return a signal from the list loaded in from the json file.  When asked to generate -1 signals, it will generate all signals in the file.
+Creates signals as defined by a specified json file. The file must be a list of dictionaries where each dictionary is a nio Signal. The file should be loadable using `json.load`.  Each call to generate_signals will return a signal from the list loaded in from the json file. When asked to generate -1 signals, it will generate all signals in the file. The block may be configured to read randomly from the file or sequentially.
 
 Properties
 ----------

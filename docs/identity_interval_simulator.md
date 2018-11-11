@@ -1,6 +1,6 @@
 IdentityIntervalSimulator
 =========================
-Simulates and notifies empty signals.
+Simulates and emits an empty signal ```{}``` at each specified interval. The block may be configured to notify any number of signals at the interval. The total number of signals for the block to emit is also configurable. If the total number of signals remaining is less than the number of signals expected to be emitted at the interval, the block will emit the total number remaining.
 
 Properties
 ----------

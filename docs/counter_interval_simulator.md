@@ -1,6 +1,6 @@
 CounterIntervalSimulator
 ========================
-Simulates and emits a signal every [interval] seconds.
+Simulates and emits a signal containing an integer every [interval] seconds. The signal can be named as needed. Multiple signals can be sent at each interval. The signal attribute may have an integer value that changes at each interval. If the total number of signals remaining is less than the number of signals to be emitted at the specified interval, the total number of signals remaining will be emitted.
 
 Properties
 ----------
