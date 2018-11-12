@@ -4,20 +4,8 @@ Creates signals as defined by a specified json file. The file must be a list of 
 
 Properties
 ----------
-- **interval**: How often to emit generated signals.
-- **num_signals**: How many signals get notified at once.
-- **random_selection**: Whether or not to randomly pull from the file. If unchecked, the simulator will iterate through the file sequentially.
-- **signals_file**: The location of the file containing a list of signals. It can be an absolute file location, relative to the root project directory or relative to the block path.
-- **total_signals**: The maximum number of signals to emit overall. If less than 0 (-1 by default), then the trigger will continue to emit indefinitely until the block is stopped.
-
-Inputs
-------
-None
-
-Outputs
--------
-- **default**: The simulated signals.
-
-Commands
---------
-None
+- **Interval**: How often to emit generated signals.
+- **Number of Signals**: How many signals get notified at once.
+- **Choose Randomly?**: Whether or not to randomly pull from the file. If unchecked, the simulator will iterate through the file sequentially.
+- **Signals File**: The location of the file containing a list of signals. It can be an absolute file location, relative to the root project directory or relative to the block path.
+- **Total Number of Signals**: The maximum number of signals to emit overall. If less than 0 (-1 by default), then the trigger will continue to emit indefinitely until the block is stopped.

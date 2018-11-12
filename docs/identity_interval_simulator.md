@@ -4,18 +4,6 @@ Simulates and emits an empty signal ```{}``` at each specified interval. The blo
 
 Properties
 ----------
-- **interval**: How often to emit generated signals.
-- **num_signals**: How many signals get notified at once.
-- **total_signals**: The maximum number of signals to emit overall. If less than 0 (-1 by default), then the trigger will continue to emit indefinitely until the block is stopped.
-
-Inputs
-------
-None
-
-Outputs
--------
-- **default**: The simulated signals.
-
-Commands
---------
-None
+- **Interval**: How often to emit generated signals.
+- **Number of Signals**: How many signals get emitted at each interval.
+- **Total Number of Signals**: The maximum number of signals to emit overall. If less than 0 (-1 by default), then the trigger will continue to emit indefinitely until the block is stopped.

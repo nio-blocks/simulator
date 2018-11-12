@@ -4,20 +4,8 @@ Simulates and emits a signal containing an integer every [interval] seconds. The
 
 Properties
 ----------
-- **attr_name**: The name of the simulated signal attribute.
-- **attr_value**: The value assigned to the simulated attribute.
-- **interval**: How often to emit generated signals.
-- **num_signals**: The amount of signals to emit at each interval.
-- **total_signals**: The maximum number of signals to emit overall after the service starts. If less than 0 (-1 by default), then the trigger will continue to emit signals indefinitely until the block is stopped.
-
-Inputs
-------
-None
-
-Outputs
--------
-- **default**: The simulated signals.
-
-Commands
---------
-None
+- **Simulated Attribute**: The name of the simulated signal attribute.
+- **Simulated Value**: The value assigned to the simulated attribute.The value attached to the signal will begin with the start value and increase by the step value until reaching the end value. After reaching the end value, the next signal have the start value of the total number of signals have not been reached.
+- **Interval**: How often to emit generated signals.
+- **Number of Signals**: The amount of signals to emit at each interval.
+- **Total Number of Signals**: The maximum number of signals to emit overall after the service starts. If less than 0 (-1 by default), then the trigger will continue to emit signals indefinitely until the block is stopped.

@@ -4,18 +4,9 @@ Simulate and emit signals according to a cron-like timetable. At the specified t
 
 Properties
 ----------
-- **cron**: The time (UTC) at which to emit the simulated signals.
-- **num_signals**: How many signals get notified at once.
-- **utc**: Use UTC time or local time.
+- **Cron Schedule**: The time (UTC) at which to emit the simulated signals.
+- **Number of Signals**: How many signals get notified at once.
 
-Inputs
-------
-None
-
-Outputs
--------
-- **default**: The simulated signals.
-
-Commands
---------
-None
+Advanced Properties
+---
+- **UTC**: Select to use UTC time instead of local machine time.
