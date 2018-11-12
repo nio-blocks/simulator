@@ -7,7 +7,7 @@
     ],
     "tags": "simulator generator first count start",
     "from_readme":"docs/counter_interval_simulator.md",
-    "from_python":""
+    "from_python":"blocks.CounterIntervalSimulator"
   },
   "nio/CounterSafeSimulator": {
     "version": "1.2.0",
@@ -17,7 +17,7 @@
     ],
     "tags":"simulator genenerator first count start counter",
     "from_readme":"docs/counter_safe_simulator.md",
-    "from_python":""
+    "from_python":"blocks.CounterSafeSimulator"
   },
   "nio/FileIntervalSimulator": {
     "version": "1.4.0",
@@ -27,7 +27,7 @@
     ],
     "tags":"simulator generator first start file json import read",
     "from_readme":"docs/file_interval_simulator.md",
-    "from_python":""
+    "from_python":"blocks.FileIntervalSimulator"
   },
   "nio/IdentityCronSimulator": {
     "version": "0.2.0",
@@ -37,7 +37,7 @@
     ],
     "tags":"simulator generator first start time cron schedule",
     "from_readme":"docs/identity_cron_simulator.md",
-    "from_python":""
+    "from_python":"blocks.IdentityCronSimulator"
   },
   "nio/IdentityIntervalSimulator": {
     "version": "1.3.0",
@@ -47,6 +47,6 @@
     ],
     "tags":"simulator generator first start empty signal synchronous",
     "from_readme":"docs/identity_interval_simulator.md",
-    "from_python":""
+    "from_python":"blocks.IdentityIntervalSimulator"
   }
 }
