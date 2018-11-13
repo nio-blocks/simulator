@@ -26,25 +26,25 @@ thread safe. Generators likely will need to internally keep track of any additio
 variables used to generate the next signals (i.e. current value that
 increments, UPC codes to simulate, etc).
 
-### Existing Generators
+###Existing Generators
+
 CounterGenerator
-================
+---
 Creates signals with one numeric attribute that will increment each time.
 
 IdentityGenerator
-=================
+---
 Creates empty signals. This is most likely useful for driving some other type
 of Block that doesn't necessarily care about the signal contents, but rather
 that a signal has been notified.
 > **Note:** `{}` is an empty Signal object
 
 FileGenerator
-=============
+---
 Creates signals as defined by a json file. The file must be a list of dictionaries where each dictionary is a nio Signal. The file should be loadable using `json.load`.
 Each call to generate_signals will return a signal from the list, loaded in from the json file. When asked to generate -1 signals, it will generate all signals in the file.
 
-Triggers
----
+## Triggers
 A Trigger's job is to determine when signals should be generated and notified.
 There is no strictly defined interface for a Trigger's implementation, but it
 will almost certainly need to call `self.generate_signals()` at some point to
@@ -65,7 +65,7 @@ class OneSecondTrigger():
 ```
  ***
 IntervalTrigger
-===============
+---
 Notifies signals every interval.
 
 For a **CounterIntervalSimulator** with start=0, stop=12, step=3, and num_signals = 3,
@@ -88,7 +88,7 @@ For example, if num_signals = 14 from the above example, the output would look l
 In real-word applications this will happen at > 30,000 signals / second on most computers
 ***
 SafeTrigger
-===========
+---
 Notify every interval - regardless of how many signals were created.
 
 For a **CounterSafeSimulator** with `start=0, stop=12, step=3, and max_count = 3`
@@ -112,11 +112,11 @@ notify anyways
 In real-word applications this will happen at > 3,000 signals / second on most computers
 
 CronTrigger
-===========
+---
 Notifies a signal at a scheduled time.
 
 Building Simulators
----
+===
 Ok, we've got some Generators and some Triggers, now it's time to make a
 block! We're going to use [Python's multiple inheritance](https://docs.python.org/3.4/tutorial/classes.html#multiple-inheritance)
 support to make this happen; your block just needs to inherit from a Generator
