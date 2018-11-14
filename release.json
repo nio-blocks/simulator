@@ -1,27 +1,27 @@
 {
   "nio/CounterIntervalSimulator": {
     "language": "Python",
-    "url": "git://github.com/nio-blocks/simulator.git",
-    "version": "1.4.0"
+    "from_python": "blocks.CounterIntervalSimulator",
+    "url": "git://github.com/nio-blocks/simulator.git"
   },
   "nio/CounterSafeSimulator": {
     "language": "Python",
-    "url": "git://github.com/nio-blocks/simulator.git",
-    "version": "1.2.0"
+    "from_python":"blocks.CounterSafeSimulator",
+    "url": "git://github.com/nio-blocks/simulator.git"
   },
   "nio/FileIntervalSimulator": {
     "language": "Python",
-    "url": "git://github.com/nio-blocks/simulator.git",
-    "version": "1.4.0"
+    "from_python":"blocks.FileIntervalSimulator",
+    "url": "git://github.com/nio-blocks/simulator.git"
   },
   "nio/IdentityCronSimulator": {
     "language": "Python",
-    "url": "git://github.com/nio-blocks/simulator.git",
-    "version": "0.2.0"
+    "from_python":"blocks.IdentityCronSimulator",
+    "url": "git://github.com/nio-blocks/simulator.git"
   },
   "nio/IdentityIntervalSimulator": {
     "language": "Python",
-    "url": "git://github.com/nio-blocks/simulator.git",
-    "version": "1.3.0"
+    "from_python":"blocks.IdentityIntervalSimulator",
+    "url": "git://github.com/nio-blocks/simulator.git"
   }
 }
