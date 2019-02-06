@@ -2,7 +2,6 @@ from datetime import datetime, timedelta
 from nio.properties import StringProperty, ObjectProperty, PropertyHolder, BoolProperty
 from nio.modules.scheduler import Job
 from nio.util.threading import spawn
-from .commandable import CommandableTrigger
 
 
 class CronConf(PropertyHolder):
@@ -13,7 +12,7 @@ class CronConf(PropertyHolder):
     day_of_week = StringProperty(title='Day of Week', default='*')
 
 
-class CronTrigger(CommandableTrigger):
+class CronTrigger():
 
     """ Notify signals according to cron-like timetable """
 
