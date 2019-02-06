@@ -1,8 +1,9 @@
 from nio.modules.scheduler import Job
 from nio.properties import TimeDeltaProperty, IntProperty
+from .commandable import CommandableTrigger
 
 
-class IntervalTrigger():
+class IntervalTrigger(CommandableTrigger):
     """Generate signals at a regular interval up to total_signals"""
 
     total_signals = IntProperty(title="Total Number of Signals", default=-1, order=4)

@@ -10,3 +10,7 @@ Properties
 Advanced Properties
 ---
 - **UTC**: Select to use UTC time instead of local machine time.
+
+Commands
+--------
+ - **trigger** - Explicitly trigger the next signal to be notified. Note that triggering will ignore the rules of the block. It will not contribute to the max number of signals and it will still notify after the max has been hit. It will also always notify only one signal.
