@@ -8,15 +8,17 @@ from .generators.file import FileGenerator
 from .triggers.interval import IntervalTrigger
 from .triggers.safe import SafeTrigger
 from .triggers.cron import CronTrigger
+from .triggers.commandable import CommandableTrigger
 
 
 class CounterIntervalSimulator(
         MultipleSignals,
         CounterGenerator,
         IntervalTrigger,
+        CommandableTrigger,
         GeneratorBlock):
 
-    version = VersionProperty("1.4.0")
+    version = VersionProperty("1.5.0")
 
 
 class CounterSafeSimulator(
@@ -31,24 +33,27 @@ class IdentityIntervalSimulator(
         MultipleSignals,
         IdentityGenerator,
         IntervalTrigger,
+        CommandableTrigger,
         GeneratorBlock):
 
-    version = VersionProperty("1.3.0")
+    version = VersionProperty("1.4.0")
 
 
 class FileIntervalSimulator(
         MultipleSignals,
         FileGenerator,
         IntervalTrigger,
+        CommandableTrigger,
         GeneratorBlock):
 
-    version = VersionProperty("1.4.0")
+    version = VersionProperty("1.5.0")
 
 
 class IdentityCronSimulator(
         MultipleSignals,
         IdentityGenerator,
         CronTrigger,
+        CommandableTrigger,
         GeneratorBlock):
 
-    version = VersionProperty("0.2.0")
+    version = VersionProperty("1.0.0")

@@ -9,3 +9,7 @@ Properties
 - **Choose Randomly?**: Whether or not to randomly pull from the file. If unchecked, the simulator will iterate through the file sequentially.
 - **Signals File**: The location of the file containing a list of signals. It can be an absolute file location, relative to the root project directory or relative to the block path.
 - **Total Number of Signals**: The maximum number of signals to emit overall. If less than 0 (-1 by default), then the trigger will continue to emit indefinitely until the block is stopped.
+
+Commands
+--------
+ - **trigger** - Explicitly trigger the next signal to be notified. Note that triggering will ignore the rules of the block. It will not contribute to the max number of signals and it will still notify after the max has been hit. It will also always notify only one signal.
